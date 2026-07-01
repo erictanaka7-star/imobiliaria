@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raiz Imóveis — Encontre o imóvel certo, no lugar certo</title>
+<style>
+/* ============================================================
+   RAIZ IMÓVEIS — DESIGN SYSTEM (arquivo único)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --verde-900: #16241f; --verde-800: #1f3a30; --verde-700: #2c5142;
+  --areia-100: #f6f1e7; --areia-200: #efe6d3; --areia-300: #e3d4b3;
+  --latao-500: #b08d57; --latao-400: #c9a86c; --terra-500: #a8553a;
+  --tinta: #1c2521; --cinza-500: #6b7570; --cinza-300: #aab2ac; --branco: #ffffff;
+  --fonte-display: 'Fraunces', Georgia, serif;
+  --fonte-corpo: 'Work Sans', system-ui, sans-serif;
+  --raio-sm: 6px; --raio-md: 12px; --raio-lg: 22px;
+  --sombra-card: 0 10px 30px -14px rgba(22, 36, 31, 0.35);
+  --sombra-elev: 0 20px 50px -18px rgba(22, 36, 31, 0.45);
+  --largura-max: 1240px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--fonte-corpo); color: var(--tinta); background: var(--areia-100); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+ul { list-style: none; }
+.container { max-width: var(--largura-max); margin: 0 auto; padding: 0 28px; }
+h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-height: 1.15; color: var(--verde-900); }
+::selection { background: var(--latao-400); color: var(--verde-900); }
+:focus-visible { outline: 2px solid var(--latao-500); outline-offset: 3px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 26px; border-radius: 999px; border: none; font-size: 14.5px; font-weight: 600; letter-spacing: 0.01em; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; white-space: nowrap; }
+.btn-primario { background: var(--latao-500); color: var(--verde-900); box-shadow: 0 10px 24px -10px rgba(176, 141, 87, 0.6); }
+.btn-primario:hover { transform: translateY(-2px); background: var(--latao-400); }
+.btn-secundario { background: transparent; color: var(--areia-100); border: 1.5px solid rgba(246, 241, 231, 0.4); }
+.btn-secundario:hover { border-color: var(--areia-100); background: rgba(246, 241, 231, 0.08); }
+.btn-outline-escuro { background: transparent; color: var(--verde-900); border: 1.5px solid var(--verde-900); }
+.btn-outline-escuro:hover { background: var(--verde-900); color: var(--areia-100); }
+.btn-bloco { width: 100%; }
+
+/* HEADER */
+.header { position: sticky; top: 0; z-index: 100; background: var(--verde-900); border-bottom: 1px solid rgba(246, 241, 231, 0.08); }
+.header__inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; }
+.marca { display: flex; align-items: baseline; gap: 8px; font-family: var(--fonte-display); color: var(--areia-100); cursor: pointer; }
+.marca__nome { font-size: 22px; font-weight: 700; letter-spacing: 0.01em; }
+.marca__tag { font-family: var(--fonte-corpo); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--latao-400); }
+.nav { display: flex; gap: 34px; }
+.nav a { font-size: 14.5px; color: rgba(246, 241, 231, 0.8); font-weight: 500; position: relative; padding: 4px 0; transition: color 0.15s ease; }
+.nav a:hover, .nav a.ativo { color: var(--areia-100); }
+.nav a.ativo::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: var(--latao-500); border-radius: 2px; }
+.header__acoes { display: flex; align-items: center; gap: 16px; }
+.menu-toggle { display: none; background: none; border: none; color: var(--areia-100); font-size: 26px; }
+@media (max-width: 900px) { .nav { display: none; } .menu-toggle { display: block; } }
+
+/* HERO */
+.hero { position: relative; background: linear-gradient(180deg, rgba(22,36,31,0.55) 0%, rgba(22,36,31,0.78) 100%), url('https://picsum.photos/seed/heroraiz/1800/1000') center/cover; padding: 110px 28px 150px; color: var(--areia-100); }
+.hero__inner { max-width: var(--largura-max); margin: 0 auto; }
+.hero__eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--latao-400); margin-bottom: 22px; }
+.hero__eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--latao-400); }
+.hero h1 { font-size: clamp(38px, 5.4vw, 68px); color: var(--areia-100); max-width: 760px; margin-bottom: 22px; }
+.hero h1 em { font-style: italic; color: var(--latao-400); }
+.hero p { max-width: 520px; font-size: 17px; color: rgba(246, 241, 231, 0.8); margin-bottom: 40px; }
+.hero__stats { display: flex; gap: 48px; margin-top: 56px; flex-wrap: wrap; }
+.hero__stat strong { display: block; font-family: var(--fonte-display); font-size: 30px; color: var(--latao-400); }
+.hero__stat span { font-size: 13px; color: rgba(246, 241, 231, 0.65); }
+
+.busca-card { background: var(--branco); border-radius: var(--raio-lg); box-shadow: var(--sombra-elev); padding: 28px; margin-top: -88px; position: relative; z-index: 10; }
+.busca-tabs { display: flex; gap: 6px; margin-bottom: 22px; }
+.busca-tab { background: var(--areia-200); border: none; padding: 9px 20px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--cinza-500); }
+.busca-tab.ativa { background: var(--verde-900); color: var(--areia-100); }
+.busca-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr auto; gap: 14px; align-items: end; }
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--cinza-500); }
+.campo input, .campo select { border: 1.5px solid var(--areia-300); background: var(--areia-100); border-radius: var(--raio-sm); padding: 11px 12px; font-size: 14.5px; font-family: inherit; color: var(--tinta); }
+.campo input:focus, .campo select:focus { border-color: var(--latao-500); outline: none; }
+.busca-grid .btn { height: 46px; padding: 0 28px; }
+@media (max-width: 980px) { .busca-grid { grid-template-columns: 1fr 1fr; } .busca-grid .btn { grid-column: 1 / -1; } }
+
+/* SEÇÕES */
+.secao { padding: 90px 28px; }
+.secao--escura { background: var(--verde-900); color: var(--areia-100); }
+.secao--alt { background: var(--areia-200); }
+.secao__cabecalho { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
+.secao__eyebrow { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--latao-500); margin-bottom: 10px; display: block; }
+.secao--escura .secao__eyebrow { color: var(--latao-400); }
+.secao__titulo { font-size: clamp(28px, 3.4vw, 40px); max-width: 560px; }
+.secao--escura .secao__titulo { color: var(--areia-100); }
+.secao__desc { color: var(--cinza-500); max-width: 480px; font-size: 15px; }
+.secao--escura .secao__desc { color: rgba(246,241,231,0.7); }
+
+/* GRID DE IMÓVEIS */
+.imoveis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
+.imovel-card { background: var(--branco); border-radius: var(--raio-md); overflow: hidden; box-shadow: var(--sombra-card); transition: transform 0.22s ease, box-shadow 0.22s ease; display: flex; flex-direction: column; }
+.imovel-card:hover { transform: translateY(-6px); box-shadow: var(--sombra-elev); }
+.imovel-card__img-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+.imovel-card__img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.imovel-card:hover .imovel-card__img-wrap img { transform: scale(1.07); }
+.imovel-card__selo { position: absolute; top: 14px; left: 14px; background: var(--latao-500); color: var(--verde-900); font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+.imovel-card__operacao { position: absolute; top: 14px; right: 14px; background: rgba(22, 36, 31, 0.82); color: var(--areia-100); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 999px; text-transform: uppercase; }
+.imovel-card__body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.imovel-card__preco { font-family: var(--fonte-display); font-size: 22px; color: var(--verde-900); font-weight: 600; }
+.imovel-card__titulo { font-size: 16.5px; font-weight: 600; color: var(--tinta); font-family: var(--fonte-corpo); }
+.imovel-card__local { font-size: 13.5px; color: var(--cinza-500); display: flex; align-items: center; gap: 5px; }
+.imovel-card__specs { display: flex; gap: 16px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--areia-200); font-size: 13px; color: var(--cinza-500); }
+.imovel-card__specs span { display: flex; align-items: center; gap: 5px; }
+
+/* BUSCA / FILTROS */
+.busca-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+.filtros { background: var(--branco); border-radius: var(--raio-md); padding: 26px; box-shadow: var(--sombra-card); position: sticky; top: 100px; }
+.filtros h3 { font-size: 18px; margin-bottom: 18px; }
+.filtro-grupo { margin-bottom: 24px; }
+.filtro-grupo:last-child { margin-bottom: 0; }
+.filtro-grupo label { display: block; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--cinza-500); margin-bottom: 8px; }
+.filtro-grupo input, .filtro-grupo select { width: 100%; border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 10px 12px; font-size: 14px; font-family: inherit; background: var(--areia-100); }
+.filtro-faixa { display: flex; gap: 10px; }
+.checagem-grupo { display: flex; flex-direction: column; gap: 9px; }
+.checagem-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.checagem-item input { width: auto; }
+.resultados-cabecalho { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px; }
+.resultados-contagem { font-size: 15px; color: var(--cinza-500); }
+.resultados-contagem strong { color: var(--verde-900); }
+.ordenar { display: flex; align-items: center; gap: 10px; font-size: 13.5px; }
+.ordenar select { border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 8px 12px; font-family: inherit; }
+.estado-vazio { text-align: center; padding: 80px 20px; color: var(--cinza-500); }
+.estado-vazio h3 { color: var(--verde-900); margin-bottom: 10px; }
+.paginacao { display: flex; justify-content: center; gap: 8px; margin-top: 48px; }
+.paginacao button { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--areia-300); background: var(--branco); font-weight: 600; font-size: 14px; color: var(--tinta); }
+.paginacao button.ativa { background: var(--verde-900); color: var(--areia-100); border-color: var(--verde-900); }
+@media (max-width: 900px) { .busca-layout { grid-template-columns: 1fr; } .filtros { position: static; } }
+
+/* PROCESSO */
+.processo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+.processo-num { font-family: var(--fonte-display); font-size: 44px; color: var(--latao-500); margin-bottom: 12px; display: block; }
+.processo-item h4 { font-size: 18px; margin-bottom: 8px; color: var(--areia-100); }
+.processo-item p { font-size: 14px; color: rgba(246,241,231,0.68); }
+
+/* DEPOIMENTOS */
+.depoimentos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 26px; }
+.depoimento-card { background: var(--branco); border-radius: var(--raio-md); padding: 28px; box-shadow: var(--sombra-card); }
+.depoimento-estrelas { color: var(--latao-500); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+.depoimento-texto { font-size: 14.5px; color: var(--tinta); margin-bottom: 20px; }
+.depoimento-autor { display: flex; align-items: center; gap: 12px; }
+.depoimento-autor img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+.depoimento-autor strong { font-size: 14px; display: block; }
+.depoimento-autor span { font-size: 12.5px; color: var(--cinza-500); }
+
+/* CTA */
+.cta-final { background: linear-gradient(135deg, var(--verde-800), var(--verde-900)); border-radius: var(--raio-lg); padding: 64px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; color: var(--areia-100); }
+.cta-final h2 { color: var(--areia-100); font-size: 30px; max-width: 460px; }
+.cta-final p { color: rgba(246,241,231,0.7); margin-top: 10px; max-width: 420px; }
+
+/* FOOTER */
+.footer { background: var(--tinta); color: rgba(246,241,231,0.7); padding: 70px 28px 26px; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 50px; }
+.footer-marca p { margin-top: 14px; font-size: 13.5px; max-width: 280px; color: rgba(246,241,231,0.55); }
+.footer h5 { font-family: var(--fonte-corpo); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--areia-100); margin-bottom: 16px; }
+.footer ul { display: flex; flex-direction: column; gap: 10px; }
+.footer ul a { font-size: 14px; color: rgba(246,241,231,0.65); }
+.footer ul a:hover { color: var(--latao-400); }
+.footer-base { border-top: 1px solid rgba(246,241,231,0.1); padding-top: 22px; display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(246,241,231,0.45); flex-wrap: wrap; gap: 10px; }
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+
+/* DETALHE DO IMÓVEL */
+.migalha { font-size: 13px; color: var(--cinza-500); padding: 22px 28px 0; max-width: var(--largura-max); margin: 0 auto; }
+.migalha a:hover { color: var(--verde-900); }
+.migalha span { margin: 0 6px; }
+.detalhe-topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: 24px 28px 0; max-width: var(--largura-max); margin: 0 auto; flex-wrap: wrap; }
+.detalhe-titulo h1 { font-size: clamp(26px, 3.2vw, 36px); margin-bottom: 8px; }
+.detalhe-titulo p { color: var(--cinza-500); font-size: 14.5px; }
+.detalhe-preco-bloco { text-align: right; }
+.detalhe-preco { font-family: var(--fonte-display); font-size: 32px; color: var(--verde-900); }
+.detalhe-preco span { font-size: 13px; color: var(--cinza-500); font-family: var(--fonte-corpo); display: block; }
+.galeria { max-width: var(--largura-max); margin: 28px auto 0; padding: 0 28px; display: grid; grid-template-columns: 2fr 1fr; gap: 14px; height: 460px; }
+.galeria__principal { border-radius: var(--raio-md); overflow: hidden; }
+.galeria__principal img { width: 100%; height: 100%; object-fit: cover; }
+.galeria__lateral { display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
+.galeria__lateral div { border-radius: var(--raio-md); overflow: hidden; position: relative; }
+.galeria__lateral img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform 0.3s ease; }
+.galeria__lateral div:hover img { transform: scale(1.05); }
+.galeria__mais { position: absolute; inset: 0; background: rgba(22,36,31,0.55); color: var(--areia-100); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 18px; }
+@media (max-width: 800px) { .galeria { grid-template-columns: 1fr; height: auto; } .galeria__lateral { grid-template-columns: 1fr 1fr; grid-template-rows: none; height: 180px; } }
+.detalhe-conteudo { max-width: var(--largura-max); margin: 50px auto; padding: 0 28px; display: grid; grid-template-columns: 1fr 360px; gap: 50px; align-items: start; }
+.specs-rapidas { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 18px; background: var(--branco); border-radius: var(--raio-md); padding: 26px; box-shadow: var(--sombra-card); margin-bottom: 36px; }
+.spec-item { text-align: center; }
+.spec-item strong { display: block; font-family: var(--fonte-display); font-size: 22px; color: var(--verde-900); }
+.spec-item span { font-size: 12px; color: var(--cinza-500); text-transform: uppercase; letter-spacing: 0.05em; }
+.bloco-secao { margin-bottom: 40px; }
+.bloco-secao h3 { font-size: 21px; margin-bottom: 14px; }
+.bloco-secao p { color: var(--cinza-500); font-size: 15px; }
+.comodidades-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.comodidades-lista li { font-size: 14px; display: flex; align-items: center; gap: 8px; color: var(--tinta); background: var(--areia-200); padding: 10px 14px; border-radius: var(--raio-sm); }
+.comodidades-lista li::before { content: '✓'; color: var(--latao-500); font-weight: 700; }
+.contato-card { background: var(--branco); border-radius: var(--raio-md); padding: 26px; box-shadow: var(--sombra-card); position: sticky; top: 100px; }
+.corretor { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.corretor img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+.corretor strong { display: block; font-size: 15px; }
+.corretor span { font-size: 12.5px; color: var(--cinza-500); }
+.contato-card form { display: flex; flex-direction: column; gap: 12px; }
+.contato-card input, .contato-card textarea { border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 11px 13px; font-size: 14px; font-family: inherit; background: var(--areia-100); resize: vertical; }
+.contato-card textarea { min-height: 90px; }
+.semelhantes { max-width: var(--largura-max); margin: 0 auto 90px; padding: 0 28px; }
+
+/* SOBRE */
+.sobre-hero { background: var(--verde-900); color: var(--areia-100); padding: 90px 28px 70px; text-align: center; }
+.sobre-hero h1 { color: var(--areia-100); font-size: clamp(32px, 4.5vw, 50px); max-width: 700px; margin: 0 auto 18px; }
+.sobre-hero p { max-width: 560px; margin: 0 auto; color: rgba(246,241,231,0.72); }
+.valores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+.valor-card { background: var(--branco); border-radius: var(--raio-md); padding: 30px; box-shadow: var(--sombra-card); }
+.valor-card .icone { width: 46px; height: 46px; border-radius: 50%; background: var(--areia-200); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; }
+.valor-card h4 { font-size: 17px; margin-bottom: 8px; }
+.valor-card p { font-size: 14px; color: var(--cinza-500); }
+.equipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+.equipe-card { text-align: center; }
+.equipe-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--raio-md); margin-bottom: 14px; }
+.equipe-card strong { display: block; font-size: 16px; }
+.equipe-card span { font-size: 13px; color: var(--latao-500); }
+
+/* CONTATO */
+.contato-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+.contato-info-card { background: var(--verde-900); color: var(--areia-100); border-radius: var(--raio-lg); padding: 40px; }
+.contato-info-card h3 { color: var(--areia-100); margin-bottom: 24px; }
+.contato-info-item { display: flex; gap: 14px; margin-bottom: 22px; }
+.contato-info-item .icone { width: 38px; height: 38px; border-radius: 50%; background: rgba(246,241,231,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.contato-info-item strong { display: block; font-size: 14.5px; margin-bottom: 3px; }
+.contato-info-item span { font-size: 13.5px; color: rgba(246,241,231,0.65); }
+.form-grande { background: var(--branco); border-radius: var(--raio-lg); padding: 40px; box-shadow: var(--sombra-card); }
+.form-linha { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grande .campo { margin-bottom: 16px; }
+.form-grande label { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cinza-500); margin-bottom: 6px; display: block; }
+.form-grande input, .form-grande select, .form-grande textarea { width: 100%; border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 12px 14px; font-size: 14.5px; font-family: inherit; background: var(--areia-100); }
+.form-grande textarea { min-height: 130px; resize: vertical; }
+@media (max-width: 900px) { .contato-layout { grid-template-columns: 1fr; } .form-linha { grid-template-columns: 1fr; } .detalhe-conteudo { grid-template-columns: 1fr; } .contato-card { position: static; } }
+
+/* UTILITÁRIOS */
+.oculto { display: none !important; }
+.page { display: none; }
+.page.ativa { display: block; }
+.toast { position: fixed; bottom: 26px; right: 26px; background: var(--verde-900); color: var(--areia-100); padding: 16px 22px; border-radius: var(--raio-sm); box-shadow: var(--sombra-elev); font-size: 14px; transform: translateY(120%); transition: transform 0.3s ease; z-index: 200; }
+.toast.mostrar { transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER (compartilhado por todas as "páginas") ===================== -->
+<header class="header">
+  <div class="header__inner">
+    <a href="#inicio" data-route="inicio" class="marca">
+      <span class="marca__nome">Raiz</span>
+      <span class="marca__tag">Imóveis</span>
+    </a>
+    <nav class="nav">
+      <a href="#inicio" data-route="inicio">Início</a>
+      <a href="#busca" data-route="busca">Imóveis</a>
+      <a href="#sobre" data-route="sobre">Sobre</a>
+      <a href="#contato" data-route="contato">Contato</a>
+    </nav>
+    <div class="header__acoes">
+      <a href="#busca" class="btn btn-secundario">Buscar imóvel</a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===================== PÁGINA: INÍCIO ===================== -->
+<section class="page ativa" id="page-inicio">
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="hero__eyebrow">Imobiliária desde 2009</span>
+      <h1>Cada lugar tem uma <em>raiz</em>. Ajudamos você a encontrar a sua.</h1>
+      <p>Mais de mil imóveis em todo o Brasil, com curadoria cuidadosa e atendimento próximo do início ao fim da negociação.</p>
+      <div class="hero__stats">
+        <div class="hero__stat"><strong id="statTotal">0</strong><span>Imóveis disponíveis</span></div>
+        <div class="hero__stat"><strong>15</strong><span>Anos de mercado</span></div>
+        <div class="hero__stat"><strong>8</strong><span>Cidades atendidas</span></div>
+        <div class="hero__stat"><strong>97%</strong><span>Clientes satisfeitos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="busca-card">
+      <div class="busca-tabs">
+        <button type="button" class="busca-tab ativa" data-op="venda">Comprar</button>
+        <button type="button" class="busca-tab" data-op="aluguel">Alugar</button>
+      </div>
+      <form class="busca-grid" id="formBuscaRapida">
+        <div class="campo">
+          <label for="qPalavra">Cidade ou bairro</label>
+          <input type="text" id="qPalavra" placeholder="Ex: Florianópolis, Jurerê...">
+        </div>
+        <div class="campo">
+          <label for="qTipo">Tipo de imóvel</label>
+          <select id="qTipo"><option value="">Todos</option></select>
+        </div>
+        <div class="campo">
+          <label for="qQuartos">Quartos</label>
+          <select id="qQuartos">
+            <option value="">Qualquer</option>
+            <option value="1">1+</option><option value="2">2+</option>
+            <option value="3">3+</option><option value="4">4+</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="qPrecoMax">Preço máximo</label>
+          <input type="number" id="qPrecoMax" placeholder="Sem limite">
+        </div>
+        <button type="submit" class="btn btn-primario">Buscar imóveis</button>
+      </form>
+    </div>
+  </div>
+
+  <section class="secao">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div><span class="secao__eyebrow">Seleção da semana</span><h2 class="secao__titulo">Imóveis em destaque</h2></div>
+        <a href="#busca" class="btn btn-outline-escuro">Ver todos os imóveis</a>
+      </div>
+      <div class="imoveis-grid" id="gridDestaques"></div>
+    </div>
+  </section>
+
+  <section class="secao secao--escura">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div>
+          <span class="secao__eyebrow">Processo simples</span>
+          <h2 class="secao__titulo">Do primeiro clique até as chaves na mão</h2>
+          <p class="secao__desc">Acompanhamos você em cada etapa, com transparência sobre prazos, custos e documentação.</p>
+        </div>
+      </div>
+      <div class="processo-grid">
+        <div class="processo-item"><span class="processo-num">01</span><h4>Busque e filtre</h4><p>Use nossos filtros por cidade, preço, tipo e número de quartos para encontrar opções compatíveis com o que você procura.</p></div>
+        <div class="processo-item"><span class="processo-num">02</span><h4>Agende uma visita</h4><p>Fale diretamente com o corretor responsável pelo imóvel e agende uma visita presencial ou virtual.</p></div>
+        <div class="processo-item"><span class="processo-num">03</span><h4>Negocie com apoio</h4><p>Nossa equipe te acompanha na proposta, negociação de valores e condições de pagamento.</p></div>
+        <div class="processo-item"><span class="processo-num">04</span><h4>Feche o negócio</h4><p>Cuidamos da parte documental e contratual para que a transição seja segura e sem surpresas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao secao--alt">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div><span class="secao__eyebrow">Onde estamos</span><h2 class="secao__titulo">Explore imóveis por cidade</h2></div>
+      </div>
+      <div class="imoveis-grid" id="gridCidades"></div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div><span class="secao__eyebrow">Quem já encontrou seu imóvel</span><h2 class="secao__titulo">O que dizem nossos clientes</h2></div>
+      </div>
+      <div class="depoimentos-grid">
+        <div class="depoimento-card">
+          <div class="depoimento-estrelas">★★★★★</div>
+          <p class="depoimento-texto">"Encontrei o apartamento ideal em menos de duas semanas. A busca por filtros economizou muito do meu tempo."</p>
+          <div class="depoimento-autor"><img src="https://picsum.photos/seed/cliente1/100/100" alt=""><div><strong>Marina Costa</strong><span>Comprou em Florianópolis</span></div></div>
+        </div>
+        <div class="depoimento-card">
+          <div class="depoimento-estrelas">★★★★★</div>
+          <p class="depoimento-texto">"Atendimento atencioso do início ao fim. O corretor entendeu exatamente o que eu precisava."</p>
+          <div class="depoimento-autor"><img src="https://picsum.photos/seed/cliente2/100/100" alt=""><div><strong>Eduardo Lima</strong><span>Alugou em São Paulo</span></div></div>
+        </div>
+        <div class="depoimento-card">
+          <div class="depoimento-estrelas">★★★★★</div>
+          <p class="depoimento-texto">"Processo transparente, sem surpresas na documentação. Recomendo para quem vai comprar o primeiro imóvel."</p>
+          <div class="depoimento-autor"><img src="https://picsum.photos/seed/cliente3/100/100" alt=""><div><strong>Patrícia Souza</strong><span>Comprou em Curitiba</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-final">
+        <div><h2>Pronto para encontrar o seu próximo endereço?</h2><p>Converse com um de nossos corretores e receba recomendações personalizadas.</p></div>
+        <a href="#contato" class="btn btn-primario">Falar com um corretor</a>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ===================== PÁGINA: BUSCA ===================== -->
+<section class="page" id="page-busca">
+  <section style="background: var(--verde-900); padding: 46px 28px;">
+    <div class="container">
+      <span class="hero__eyebrow" style="color: var(--latao-400);">Buscar imóveis</span>
+      <h1 style="color: var(--areia-100); font-size: clamp(26px, 3.4vw, 38px);">Encontre o imóvel ideal com nossos filtros</h1>
+    </div>
+  </section>
+
+  <section class="secao" style="padding-top: 50px;">
+    <div class="container">
+      <div class="busca-layout">
+        <aside class="filtros">
+          <h3>Filtrar resultados</h3>
+          <form id="formFiltros">
+            <div class="filtro-grupo">
+              <label for="fPalavra">Cidade, bairro ou palavra-chave</label>
+              <input type="text" id="fPalavra" placeholder="Ex: Leblon, vista mar...">
+            </div>
+            <div class="filtro-grupo">
+              <label for="fOperacao">Operação</label>
+              <select id="fOperacao">
+                <option value="">Comprar ou alugar</option>
+                <option value="venda">Comprar</option>
+                <option value="aluguel">Alugar</option>
+              </select>
+            </div>
+            <div class="filtro-grupo">
+              <label for="fTipo">Tipo de imóvel</label>
+              <select id="fTipo"><option value="">Todos os tipos</option></select>
+            </div>
+            <div class="filtro-grupo">
+              <label for="fCidade">Cidade</label>
+              <select id="fCidade"><option value="">Todas as cidades</option></select>
+            </div>
+            <div class="filtro-grupo">
+              <label>Faixa de preço (R$)</label>
+              <div class="filtro-faixa">
+                <input type="number" id="fPrecoMin" placeholder="Mínimo">
+                <input type="number" id="fPrecoMax" placeholder="Máximo">
+              </div>
+            </div>
+            <div class="filtro-grupo">
+              <label for="fQuartos">Quartos (mínimo)</label>
+              <select id="fQuartos">
+                <option value="">Qualquer</option>
+                <option value="1">1+</option><option value="2">2+</option><option value="3">3+</option>
+                <option value="4">4+</option><option value="5">5+</option>
+              </select>
+            </div>
+            <div class="filtro-grupo">
+              <label for="fAreaMin">Área mínima (m²)</label>
+              <input type="number" id="fAreaMin" placeholder="Ex: 60">
+            </div>
+            <div class="filtro-grupo">
+              <label>Outros</label>
+              <div class="checagem-grupo">
+                <label class="checagem-item"><input type="checkbox" id="fVaga"> Com vaga de garagem</label>
+                <label class="checagem-item"><input type="checkbox" id="fDestaque"> Apenas em destaque</label>
+              </div>
+            </div>
+            <button type="button" id="btnLimpar" class="btn btn-outline-escuro btn-bloco">Limpar filtros</button>
+          </form>
+        </aside>
+
+        <div>
+          <div class="resultados-cabecalho">
+            <p class="resultados-contagem"><strong id="qtdResultados">0</strong> imóveis encontrados</p>
+            <div class="ordenar">
+              <label for="ordenarSelect">Ordenar por</label>
+              <select id="ordenarSelect">
+                <option value="relevancia">Relevância</option>
+                <option value="menor-preco">Menor preço</option>
+                <option value="maior-preco">Maior preço</option>
+                <option value="maior-area">Maior área</option>
+              </select>
+            </div>
+          </div>
+          <div class="imoveis-grid" id="gridResultados"></div>
+          <div class="estado-vazio oculto" id="estadoVazio">
+            <h3>Nenhum imóvel encontrado</h3>
+            <p>Tente ampliar a faixa de preço ou remover algum filtro para ver mais opções.</p>
+          </div>
+          <div class="paginacao" id="paginacao"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ===================== PÁGINA: DETALHE DO IMÓVEL ===================== -->
+<section class="page" id="page-imovel">
+  <p class="migalha">
+    <a href="#inicio">Início</a><span>/</span>
+    <a href="#busca">Imóveis</a><span>/</span>
+    <span id="migalhaTitulo">Carregando...</span>
+  </p>
+
+  <div class="detalhe-topo">
+    <div class="detalhe-titulo">
+      <h1 id="detTitulo">—</h1>
+      <p id="detLocal">—</p>
+    </div>
+    <div class="detalhe-preco-bloco">
+      <div class="detalhe-preco" id="detPreco">—</div>
+      <span id="detOperacao"></span>
+    </div>
+  </div>
+
+  <div class="galeria" id="galeria">
+    <div class="galeria__principal"><img id="imgPrincipal" src="" alt=""></div>
+    <div class="galeria__lateral" id="galeriaLateral"></div>
+  </div>
+
+  <div class="detalhe-conteudo">
+    <main>
+      <div class="specs-rapidas" id="specsRapidas"></div>
+      <div class="bloco-secao"><h3>Sobre o imóvel</h3><p id="detDescricao">—</p></div>
+      <div class="bloco-secao"><h3>Comodidades</h3><ul class="comodidades-lista" id="listaComodidades"></ul></div>
+      <div class="bloco-secao">
+        <h3>Localização</h3>
+        <p id="detLocalizacaoTexto">—</p>
+        <div style="border-radius: var(--raio-md); overflow:hidden; margin-top:14px;">
+          <img src="https://picsum.photos/seed/mapaimovel/900/320" alt="Mapa ilustrativo da região" style="width:100%; height:260px; object-fit:cover;">
+        </div>
+      </div>
+    </main>
+    <aside class="contato-card">
+      <div class="corretor">
+        <img src="https://picsum.photos/seed/corretor1/100/100" alt="Foto do corretor">
+        <div><strong>Carlos Mendes</strong><span>Corretor responsável • CRECI 12345</span></div>
+      </div>
+      <form id="formContatoImovel" onsubmit="return false;">
+        <input type="text" placeholder="Seu nome" required>
+        <input type="email" placeholder="Seu e-mail" required>
+        <input type="tel" placeholder="Seu telefone">
+        <textarea placeholder="Tenho interesse neste imóvel, gostaria de mais informações."></textarea>
+        <button type="submit" class="btn btn-primario btn-bloco">Enviar interesse</button>
+      </form>
+    </aside>
+  </div>
+
+  <section class="semelhantes">
+    <div class="secao__cabecalho">
+      <div><span class="secao__eyebrow">Você também pode gostar</span><h2 class="secao__titulo">Imóveis semelhantes</h2></div>
+    </div>
+    <div class="imoveis-grid" id="gridSemelhantes"></div>
+  </section>
+</section>
+
+<!-- ===================== PÁGINA: SOBRE ===================== -->
+<section class="page" id="page-sobre">
+  <section class="sobre-hero">
+    <span class="hero__eyebrow" style="justify-content:center;">Nossa história</span>
+    <h1>Conectamos pessoas a lugares desde 2009</h1>
+    <p>Começamos como uma pequena imobiliária de bairro e crescemos mantendo o mesmo princípio: cada cliente merece atenção de verdade, não apenas uma lista de imóveis.</p>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div><span class="secao__eyebrow">Nossos princípios</span><h2 class="secao__titulo">O que guia o nosso trabalho todos os dias</h2></div>
+      </div>
+      <div class="valores-grid">
+        <div class="valor-card"><div class="icone">🤝</div><h4>Transparência</h4><p>Informações completas sobre cada imóvel, sem letras miúdas ou surpresas na hora da negociação.</p></div>
+        <div class="valor-card"><div class="icone">🔍</div><h4>Curadoria cuidadosa</h4><p>Cada imóvel anunciado passa por uma checagem da nossa equipe antes de chegar até você.</p></div>
+        <div class="valor-card"><div class="icone">⏱</div><h4>Agilidade</h4><p>Respostas rápidas e processos simplificados, do primeiro contato até a assinatura do contrato.</p></div>
+        <div class="valor-card"><div class="icone">🌱</div><h4>Compromisso de longo prazo</h4><p>Não encerramos a relação na entrega das chaves — seguimos disponíveis para o que precisar depois.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao secao--alt">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <div><span class="secao__eyebrow">Bastidores</span><h2 class="secao__titulo">Conheça parte da nossa equipe</h2></div>
+      </div>
+      <div class="equipe-grid">
+        <div class="equipe-card"><img src="https://picsum.photos/seed/equipe1/400/400" alt=""><strong>Carlos Mendes</strong><span>Corretor sênior</span></div>
+        <div class="equipe-card"><img src="https://picsum.photos/seed/equipe2/400/400" alt=""><strong>Ana Beatriz Rocha</strong><span>Corretora • especialista em litoral</span></div>
+        <div class="equipe-card"><img src="https://picsum.photos/seed/equipe3/400/400" alt=""><strong>Rafael Tavares</strong><span>Corretor • imóveis comerciais</span></div>
+        <div class="equipe-card"><img src="https://picsum.photos/seed/equipe4/400/400" alt=""><strong>Juliana Prado</strong><span>Gerente de relacionamento</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="cta-final">
+        <div><h2>Quer conhecer melhor o nosso trabalho?</h2><p>Entre em contato e converse com a nossa equipe sem compromisso.</p></div>
+        <a href="#contato" class="btn btn-primario">Entrar em contato</a>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ===================== PÁGINA: CONTATO ===================== -->
+<section class="page" id="page-contato">
+  <section style="background: var(--verde-900); padding: 56px 28px;">
+    <div class="container">
+      <span class="hero__eyebrow" style="color: var(--latao-400);">Fale com a gente</span>
+      <h1 style="color: var(--areia-100); font-size: clamp(28px, 3.6vw, 42px); max-width:600px;">Vamos encontrar o imóvel certo para você</h1>
+    </div>
+  </section>
+
+  <section class="secao">
+    <div class="container">
+      <div class="contato-layout">
+        <div class="contato-info-card">
+          <h3>Informações de contato</h3>
+          <div class="contato-info-item"><div class="icone">📍</div><div><strong>Endereço</strong><span>Av. Beira Mar, 1200 — Centro, Florianópolis, SC</span></div></div>
+          <div class="contato-info-item"><div class="icone">📞</div><div><strong>Telefone</strong><span>(48) 99999-0000</span></div></div>
+          <div class="contato-info-item"><div class="icone">✉️</div><div><strong>E-mail</strong><span>contato@raizimoveis.com.br</span></div></div>
+          <div class="contato-info-item"><div class="icone">🕘</div><div><strong>Horário de atendimento</strong><span>Segunda a sexta, 9h às 18h • Sábado, 9h às 13h</span></div></div>
+          <div style="margin-top:30px; border-radius: var(--raio-md); overflow:hidden;">
+            <img src="https://picsum.photos/seed/escritorio/700/360" alt="Fachada do escritório" style="width:100%; height:200px; object-fit:cover;">
+          </div>
+        </div>
+
+        <form class="form-grande" id="formContatoGeral" onsubmit="return false;">
+          <h3 style="margin-bottom:22px;">Envie sua mensagem</h3>
+          <div class="form-linha">
+            <div class="campo"><label for="cNome">Nome completo</label><input type="text" id="cNome" required></div>
+            <div class="campo"><label for="cTelefone">Telefone</label><input type="tel" id="cTelefone"></div>
+          </div>
+          <div class="campo"><label for="cEmail">E-mail</label><input type="email" id="cEmail" required></div>
+          <div class="campo">
+            <label for="cAssunto">Assunto</label>
+            <select id="cAssunto">
+              <option>Quero comprar um imóvel</option>
+              <option>Quero alugar um imóvel</option>
+              <option>Quero anunciar meu imóvel</option>
+              <option>Outro assunto</option>
+            </select>
+          </div>
+          <div class="campo"><label for="cMensagem">Mensagem</label><textarea id="cMensagem" placeholder="Conte um pouco sobre o que você procura..."></textarea></div>
+          <button type="submit" class="btn btn-primario btn-bloco">Enviar mensagem</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER (compartilhado) ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-marca">
+        <span class="marca__nome" style="color:#f6f1e7; font-size:22px; font-family: var(--fonte-display);">Raiz Imóveis</span>
+        <p>Conectamos pessoas a lugares com cuidado, transparência e curadoria em cada imóvel anunciado.</p>
+      </div>
+      <div>
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#busca">Buscar imóveis</a></li>
+          <li><a href="#sobre">Sobre nós</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div><h5>Tipos de imóvel</h5><ul id="footerTipos"></ul></div>
+      <div>
+        <h5>Contato</h5>
+        <ul>
+          <li>(48) 99999-0000</li>
+          <li>contato@raizimoveis.com.br</li>
+          <li>Av. Beira Mar, 1200 — Florianópolis, SC</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Raiz Imóveis. Todos os direitos reservados.</span>
+      <span>CRECI-J 00000 — Site demonstrativo</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Interesse enviado com sucesso!</div>
+
+<script>
+/* ============================================================
+   DADOS DOS IMÓVEIS
+   ============================================================ */
+const PROPERTIES = [
+  { id: 1, titulo: "Apartamento com vista para o mar", tipo: "Apartamento", operacao: "venda", preco: 1250000, cidade: "Florianópolis", bairro: "Jurerê Internacional", quartos: 3, suites: 1, banheiros: 3, vagas: 2, area: 142, destaque: true, descricao: "Apartamento amplo a poucos passos da praia, com varanda gourmet integrada e vista privilegiada para o mar. Prédio com infraestrutura completa de lazer.", comodidades: ["Piscina", "Academia", "Salão de festas", "Portaria 24h", "Varanda gourmet", "Vista mar"], imagens: ["https://picsum.photos/seed/imovel1a/900/600","https://picsum.photos/seed/imovel1b/900/600","https://picsum.photos/seed/imovel1c/900/600","https://picsum.photos/seed/imovel1d/900/600"] },
+  { id: 2, titulo: "Casa térrea em condomínio fechado", tipo: "Casa", operacao: "venda", preco: 890000, cidade: "Curitiba", bairro: "Santa Felicidade", quartos: 4, suites: 2, banheiros: 3, vagas: 3, area: 210, destaque: true, descricao: "Casa térrea com amplo quintal, churrasqueira e espaço gourmet. Condomínio com segurança 24 horas e área verde preservada.", comodidades: ["Quintal amplo", "Churrasqueira", "Condomínio fechado", "Segurança 24h", "Energia solar"], imagens: ["https://picsum.photos/seed/imovel2a/900/600","https://picsum.photos/seed/imovel2b/900/600","https://picsum.photos/seed/imovel2c/900/600"] },
+  { id: 3, titulo: "Studio moderno no centro", tipo: "Studio", operacao: "aluguel", preco: 2400, cidade: "São Paulo", bairro: "Vila Madalena", quartos: 1, suites: 1, banheiros: 1, vagas: 0, area: 38, destaque: false, descricao: "Studio compacto e funcional, totalmente mobiliado, ideal para quem busca praticidade perto de bares, restaurantes e estações de metrô.", comodidades: ["Mobiliado", "Pet friendly", "Próximo ao metrô", "Internet inclusa"], imagens: ["https://picsum.photos/seed/imovel3a/900/600","https://picsum.photos/seed/imovel3b/900/600"] },
+  { id: 4, titulo: "Cobertura duplex com terraço", tipo: "Cobertura", operacao: "venda", preco: 2150000, cidade: "Rio de Janeiro", bairro: "Leblon", quartos: 4, suites: 3, banheiros: 5, vagas: 3, area: 280, destaque: true, descricao: "Cobertura duplex com terraço privativo, piscina própria e vista panorâmica para a cidade. Acabamento de altíssimo padrão.", comodidades: ["Piscina privativa", "Terraço", "Vista panorâmica", "Closet", "Adega"], imagens: ["https://picsum.photos/seed/imovel4a/900/600","https://picsum.photos/seed/imovel4b/900/600","https://picsum.photos/seed/imovel4c/900/600","https://picsum.photos/seed/imovel4d/900/600"] },
+  { id: 5, titulo: "Apartamento compacto reformado", tipo: "Apartamento", operacao: "aluguel", preco: 1800, cidade: "Belo Horizonte", bairro: "Savassi", quartos: 2, suites: 0, banheiros: 1, vagas: 1, area: 55, destaque: false, descricao: "Apartamento recém reformado, com cozinha planejada e ótima localização, próximo a comércios e transporte público.", comodidades: ["Reformado", "Cozinha planejada", "Próximo ao comércio"], imagens: ["https://picsum.photos/seed/imovel5a/900/600","https://picsum.photos/seed/imovel5b/900/600"] },
+  { id: 6, titulo: "Casa de campo com pomar", tipo: "Casa", operacao: "venda", preco: 680000, cidade: "Curitiba", bairro: "Região Metropolitana", quartos: 3, suites: 1, banheiros: 2, vagas: 4, area: 320, destaque: false, descricao: "Casa de campo com pomar de frutas, área para horta e amplo espaço externo. Perfeita para quem busca tranquilidade perto da cidade.", comodidades: ["Pomar", "Horta", "Espaço externo amplo", "Poço artesiano"], imagens: ["https://picsum.photos/seed/imovel6a/900/600","https://picsum.photos/seed/imovel6b/900/600"] },
+  { id: 7, titulo: "Sala comercial em torre corporativa", tipo: "Comercial", operacao: "aluguel", preco: 3500, cidade: "São Paulo", bairro: "Itaim Bibi", quartos: 0, suites: 0, banheiros: 1, vagas: 1, area: 45, destaque: false, descricao: "Sala comercial pronta para uso, em torre corporativa com recepção, segurança e fácil acesso a vias principais.", comodidades: ["Recepção", "Segurança 24h", "Gerador próprio", "Estacionamento"], imagens: ["https://picsum.photos/seed/imovel7a/900/600","https://picsum.photos/seed/imovel7b/900/600"] },
+  { id: 8, titulo: "Apartamento garden com quintal", tipo: "Apartamento", operacao: "venda", preco: 760000, cidade: "Porto Alegre", bairro: "Moinhos de Vento", quartos: 3, suites: 1, banheiros: 2, vagas: 2, area: 110, destaque: false, descricao: "Apartamento garden raro, com quintal privativo gramado, ideal para famílias com crianças ou pets.", comodidades: ["Quintal privativo", "Pet friendly", "Churrasqueira privativa"], imagens: ["https://picsum.photos/seed/imovel8a/900/600","https://picsum.photos/seed/imovel8b/900/600","https://picsum.photos/seed/imovel8c/900/600"] },
+  { id: 9, titulo: "Terreno em condomínio de alto padrão", tipo: "Terreno", operacao: "venda", preco: 420000, cidade: "Florianópolis", bairro: "Lagoa da Conceição", quartos: 0, suites: 0, banheiros: 0, vagas: 0, area: 450, destaque: false, descricao: "Terreno plano em condomínio fechado de alto padrão, pronto para construção, com infraestrutura completa de água e energia.", comodidades: ["Condomínio fechado", "Infraestrutura completa", "Área plana"], imagens: ["https://picsum.photos/seed/imovel9a/900/600","https://picsum.photos/seed/imovel9b/900/600"] },
+  { id: 10, titulo: "Apartamento de 1 quarto próximo à universidade", tipo: "Apartamento", operacao: "aluguel", preco: 1450, cidade: "Belo Horizonte", bairro: "Pampulha", quartos: 1, suites: 0, banheiros: 1, vagas: 1, area: 42, destaque: false, descricao: "Apartamento ideal para estudantes, a 5 minutos a pé da universidade, com lavanderia coletiva e área de estudos.", comodidades: ["Lavanderia coletiva", "Área de estudos", "Próximo à universidade"], imagens: ["https://picsum.photos/seed/imovel10a/900/600","https://picsum.photos/seed/imovel10b/900/600"] },
+  { id: 11, titulo: "Casa duplex com piscina", tipo: "Casa", operacao: "venda", preco: 1450000, cidade: "São Paulo", bairro: "Alto de Pinheiros", quartos: 4, suites: 2, banheiros: 4, vagas: 4, area: 290, destaque: true, descricao: "Casa duplex com piscina aquecida, escritório, área gourmet completa e jardim paisagístico assinado.", comodidades: ["Piscina aquecida", "Escritório", "Jardim paisagístico", "Área gourmet"], imagens: ["https://picsum.photos/seed/imovel11a/900/600","https://picsum.photos/seed/imovel11b/900/600","https://picsum.photos/seed/imovel11c/900/600"] },
+  { id: 12, titulo: "Apartamento frente mar com 2 suítes", tipo: "Apartamento", operacao: "aluguel", preco: 6200, cidade: "Rio de Janeiro", bairro: "Barra da Tijuca", quartos: 3, suites: 2, banheiros: 3, vagas: 2, area: 130, destaque: true, descricao: "Apartamento de frente para o mar, totalmente mobiliado e decorado, em condomínio clube com lazer completo.", comodidades: ["Mobiliado", "Vista mar", "Condomínio clube", "Piscina", "Quadra de tênis"], imagens: ["https://picsum.photos/seed/imovel12a/900/600","https://picsum.photos/seed/imovel12b/900/600","https://picsum.photos/seed/imovel12c/900/600"] },
+  { id: 13, titulo: "Cobertura linear com home office", tipo: "Cobertura", operacao: "venda", preco: 1380000, cidade: "Curitiba", bairro: "Batel", quartos: 3, suites: 1, banheiros: 3, vagas: 2, area: 165, destaque: false, descricao: "Cobertura linear com ambiente dedicado para home office, varanda ampla e acabamento contemporâneo.", comodidades: ["Home office", "Varanda ampla", "Acabamento contemporâneo"], imagens: ["https://picsum.photos/seed/imovel13a/900/600","https://picsum.photos/seed/imovel13b/900/600"] },
+  { id: 14, titulo: "Casa colonial restaurada", tipo: "Casa", operacao: "venda", preco: 950000, cidade: "Salvador", bairro: "Rio Vermelho", quartos: 5, suites: 2, banheiros: 4, vagas: 2, area: 310, destaque: false, descricao: "Casa colonial cuidadosamente restaurada, mantendo elementos originais, com quintal arborizado e pé direito alto.", comodidades: ["Arquitetura colonial", "Pé direito alto", "Quintal arborizado"], imagens: ["https://picsum.photos/seed/imovel14a/900/600","https://picsum.photos/seed/imovel14b/900/600","https://picsum.photos/seed/imovel14c/900/600"] },
+  { id: 15, titulo: "Apartamento econômico próximo ao centro", tipo: "Apartamento", operacao: "aluguel", preco: 1200, cidade: "Recife", bairro: "Boa Vista", quartos: 2, suites: 0, banheiros: 1, vagas: 0, area: 48, destaque: false, descricao: "Apartamento simples e bem localizado, a poucos minutos do centro histórico, ótimo custo-benefício.", comodidades: ["Próximo ao centro", "Bom custo-benefício"], imagens: ["https://picsum.photos/seed/imovel15a/900/600","https://picsum.photos/seed/imovel15b/900/600"] },
+  { id: 16, titulo: "Sítio com nascente e área de lazer", tipo: "Sítio", operacao: "venda", preco: 1100000, cidade: "Curitiba", bairro: "Região Metropolitana", quartos: 4, suites: 1, banheiros: 3, vagas: 6, area: 12000, destaque: true, descricao: "Sítio com nascente própria, lago para pesca, pomar extenso e casa principal com vista para as montanhas.", comodidades: ["Nascente própria", "Lago", "Pomar", "Vista para montanhas"], imagens: ["https://picsum.photos/seed/imovel16a/900/600","https://picsum.photos/seed/imovel16b/900/600"] },
+  { id: 17, titulo: "Apartamento novo no bairro mais valorizado", tipo: "Apartamento", operacao: "venda", preco: 980000, cidade: "Florianópolis", bairro: "Beira Mar Norte", quartos: 3, suites: 1, banheiros: 2, vagas: 2, area: 98, destaque: false, descricao: "Apartamento novo, nunca habitado, em prédio recém entregue com infraestrutura de lazer completa.", comodidades: ["Imóvel novo", "Academia", "Piscina", "Espaço kids"], imagens: ["https://picsum.photos/seed/imovel17a/900/600","https://picsum.photos/seed/imovel17b/900/600"] },
+  { id: 18, titulo: "Loft industrial revitalizado", tipo: "Studio", operacao: "aluguel", preco: 3200, cidade: "São Paulo", bairro: "Pinheiros", quartos: 1, suites: 1, banheiros: 1, vagas: 1, area: 62, destaque: false, descricao: "Loft em antigo galpão industrial revitalizado, pé direito duplo, mezanino e estética moderna exposta.", comodidades: ["Pé direito duplo", "Mezanino", "Estética industrial"], imagens: ["https://picsum.photos/seed/imovel18a/900/600","https://picsum.photos/seed/imovel18b/900/600"] },
+  { id: 19, titulo: "Casa geminada em bairro familiar", tipo: "Casa", operacao: "aluguel", preco: 2800, cidade: "Porto Alegre", bairro: "Petrópolis", quartos: 3, suites: 1, banheiros: 2, vagas: 2, area: 120, destaque: false, descricao: "Casa geminada em rua tranquila, próxima a escolas e parques, com quintal e churrasqueira.", comodidades: ["Quintal", "Churrasqueira", "Próximo a escolas"], imagens: ["https://picsum.photos/seed/imovel19a/900/600","https://picsum.photos/seed/imovel19b/900/600"] },
+  { id: 20, titulo: "Apartamento alto padrão com varanda gourmet", tipo: "Apartamento", operacao: "venda", preco: 1650000, cidade: "Rio de Janeiro", bairro: "Ipanema", quartos: 3, suites: 2, banheiros: 3, vagas: 2, area: 125, destaque: true, descricao: "Apartamento de alto padrão a duas quadras da praia, com varanda gourmet e acabamento premium em todos os ambientes.", comodidades: ["Varanda gourmet", "Acabamento premium", "Perto da praia"], imagens: ["https://picsum.photos/seed/imovel20a/900/600","https://picsum.photos/seed/imovel20b/900/600","https://picsum.photos/seed/imovel20c/900/600"] },
+  { id: 21, titulo: "Sala comercial corner com vitrine", tipo: "Comercial", operacao: "venda", preco: 540000, cidade: "Belo Horizonte", bairro: "Centro", quartos: 0, suites: 0, banheiros: 1, vagas: 0, area: 70, destaque: false, descricao: "Sala comercial de esquina com ampla vitrine, ótima visibilidade e fluxo intenso de pedestres.", comodidades: ["Vitrine ampla", "Esquina", "Alto fluxo de pessoas"], imagens: ["https://picsum.photos/seed/imovel21a/900/600","https://picsum.photos/seed/imovel21b/900/600"] },
+  { id: 22, titulo: "Apartamento mobiliado para temporada", tipo: "Apartamento", operacao: "aluguel", preco: 4500, cidade: "Florianópolis", bairro: "Canasvieiras", quartos: 2, suites: 1, banheiros: 2, vagas: 1, area: 75, destaque: false, descricao: "Apartamento totalmente mobiliado e equipado, a poucos metros da praia, ideal para temporada ou trabalho remoto.", comodidades: ["Mobiliado", "Próximo à praia", "Wi-fi de alta velocidade"], imagens: ["https://picsum.photos/seed/imovel22a/900/600","https://picsum.photos/seed/imovel22b/900/600"] },
+  { id: 23, titulo: "Casa minimalista de arquiteto", tipo: "Casa", operacao: "venda", preco: 1890000, cidade: "São Paulo", bairro: "Jardim Europa", quartos: 4, suites: 4, banheiros: 5, vagas: 4, area: 340, destaque: true, descricao: "Projeto autoral minimalista, com pé direito duplo, painéis de concreto aparente e integração total com o jardim.", comodidades: ["Projeto autoral", "Concreto aparente", "Integração com jardim", "Automação residencial"], imagens: ["https://picsum.photos/seed/imovel23a/900/600","https://picsum.photos/seed/imovel23b/900/600","https://picsum.photos/seed/imovel23c/900/600"] },
+  { id: 24, titulo: "Apartamento garden em condomínio clube", tipo: "Apartamento", operacao: "venda", preco: 720000, cidade: "Curitiba", bairro: "Ecoville", quartos: 2, suites: 1, banheiros: 2, vagas: 2, area: 88, destaque: false, descricao: "Apartamento garden com área externa privativa, em condomínio clube com piscina, academia e espaço pet.", comodidades: ["Área externa privativa", "Condomínio clube", "Espaço pet"], imagens: ["https://picsum.photos/seed/imovel24a/900/600","https://picsum.photos/seed/imovel24b/900/600"] },
+  { id: 25, titulo: "Terreno comercial em avenida principal", tipo: "Terreno", operacao: "venda", preco: 1300000, cidade: "Recife", bairro: "Boa Viagem", quartos: 0, suites: 0, banheiros: 0, vagas: 0, area: 600, destaque: false, descricao: "Terreno comercial estratégico em avenida de grande movimento, ideal para construção de empreendimento próprio.", comodidades: ["Localização estratégica", "Grande movimento", "Uso comercial"], imagens: ["https://picsum.photos/seed/imovel25a/900/600","https://picsum.photos/seed/imovel25b/900/600"] },
+  { id: 26, titulo: "Apartamento aconchegante para casal", tipo: "Apartamento", operacao: "aluguel", preco: 1650, cidade: "Porto Alegre", bairro: "Cidade Baixa", quartos: 1, suites: 0, banheiros: 1, vagas: 0, area: 45, destaque: false, descricao: "Apartamento aconchegante, com boa iluminação natural, em região boêmia repleta de bares e vida cultural.", comodidades: ["Boa iluminação", "Região boêmia", "Vida cultural ativa"], imagens: ["https://picsum.photos/seed/imovel26a/900/600","https://picsum.photos/seed/imovel26b/900/600"] },
+  { id: 27, titulo: "Cobertura com piscina privativa e spa", tipo: "Cobertura", operacao: "venda", preco: 3200000, cidade: "São Paulo", bairro: "Vila Nova Conceição", quartos: 4, suites: 4, banheiros: 6, vagas: 5, area: 410, destaque: true, descricao: "Cobertura exclusiva com piscina privativa, spa, adega climatizada e terraço com vista 360° da cidade.", comodidades: ["Piscina privativa", "Spa", "Adega climatizada", "Vista 360°"], imagens: ["https://picsum.photos/seed/imovel27a/900/600","https://picsum.photos/seed/imovel27b/900/600","https://picsum.photos/seed/imovel27c/900/600","https://picsum.photos/seed/imovel27d/900/600"] },
+  { id: 28, titulo: "Casa térrea reformada perto da orla", tipo: "Casa", operacao: "aluguel", preco: 3900, cidade: "Florianópolis", bairro: "Campeche", quartos: 3, suites: 1, banheiros: 2, vagas: 2, area: 140, destaque: false, descricao: "Casa térrea totalmente reformada, a 400 metros da praia, com quintal e espaço para receber amigos.", comodidades: ["Reformada", "Perto da praia", "Quintal"], imagens: ["https://picsum.photos/seed/imovel28a/900/600","https://picsum.photos/seed/imovel28b/900/600"] }
+];
+const CIDADES_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.cidade))].sort();
+const TIPOS_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.tipo))].sort();
+
+/* ============================================================
+   FUNÇÕES COMPARTILHADAS
+   ============================================================ */
+function formatarPreco(valor, operacao) {
+  const formatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  return operacao === 'aluguel' ? `${formatado}/mês` : formatado;
+}
+
+function criarCardImovel(imovel) {
+  const operacaoLabel = imovel.operacao === 'venda' ? 'Venda' : 'Aluguel';
+  return `
+    <a href="#imovel?id=${imovel.id}" class="imovel-card">
+      <div class="imovel-card__img-wrap">
+        <img src="${imovel.imagens[0]}" alt="${imovel.titulo}" loading="lazy">
+        ${imovel.destaque ? '<span class="imovel-card__selo">Destaque</span>' : ''}
+        <span class="imovel-card__operacao">${operacaoLabel}</span>
+      </div>
+      <div class="imovel-card__body">
+        <div class="imovel-card__preco">${formatarPreco(imovel.preco, imovel.operacao)}</div>
+        <div class="imovel-card__titulo">${imovel.titulo}</div>
+        <div class="imovel-card__local">📍 ${imovel.bairro}, ${imovel.cidade}</div>
+        <div class="imovel-card__specs">
+          ${imovel.quartos ? `<span>🛏 ${imovel.quartos} qto${imovel.quartos > 1 ? 's' : ''}</span>` : ''}
+          ${imovel.banheiros ? `<span>🛁 ${imovel.banheiros}</span>` : ''}
+          <span>📐 ${imovel.area} m²</span>
+        </div>
+      </div>
+    </a>`;
+}
+
+function popularSelect(elemento, opcoes) {
+  if (!elemento) return;
+  opcoes.forEach(op => {
+    const o = document.createElement('option');
+    o.value = op; o.textContent = op;
+    elemento.appendChild(o);
+  });
+}
+
+function mostrarToast(mensagem) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  if (mensagem) toast.textContent = mensagem;
+  toast.classList.add('mostrar');
+  setTimeout(() => toast.classList.remove('mostrar'), 3200);
+}
+
+function animarContador(elemento, alvo, duracao = 900) {
+  if (!elemento) return;
+  const inicio = performance.now();
+  function passo(agora) {
+    const progresso = Math.min((agora - inicio) / duracao, 1);
+    elemento.textContent = Math.round(progresso * alvo);
+    if (progresso < 1) requestAnimationFrame(passo);
+  }
+  requestAnimationFrame(passo);
+}
+
+/* ============================================================
+   ROTEADOR (simula múltiplas páginas usando a #hash da URL)
+   ============================================================ */
+function analisarHash() {
+  let hash = window.location.hash.slice(1);
+  if (!hash) hash = 'inicio';
+  const [rota, queryString] = hash.split('?');
+  return { rota: rota || 'inicio', params: new URLSearchParams(queryString || '') };
+}
+
+function renderizarRota() {
+  const { rota, params } = analisarHash();
+  const rotasValidas = ['inicio', 'busca', 'imovel', 'sobre', 'contato'];
+  const rotaFinal = rotasValidas.includes(rota) ? rota : 'inicio';
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('ativa'));
+  document.getElementById('page-' + rotaFinal).classList.add('ativa');
+
+  document.querySelectorAll('.nav a').forEach(a => {
+    a.classList.toggle('ativo', a.dataset.route === rotaFinal);
+  });
+
+  window.scrollTo({ top: 0 });
+
+  const titulos = {
+    inicio: 'Raiz Imóveis — Encontre o imóvel certo, no lugar certo',
+    busca: 'Buscar imóveis — Raiz Imóveis',
+    sobre: 'Sobre nós — Raiz Imóveis',
+    contato: 'Contato — Raiz Imóveis'
+  };
+  document.title = titulos[rotaFinal] || titulos.inicio;
+
+  if (rotaFinal === 'busca') initBusca(params);
+  if (rotaFinal === 'imovel') initImovel(params);
+}
+
+window.addEventListener('hashchange', renderizarRota);
+
+/* ============================================================
+   PÁGINA: BUSCA — filtros, ordenação e paginação
+   ============================================================ */
+const ITENS_POR_PAGINA = 9;
+let paginaAtual = 1;
+let filtrosInicializados = false;
+
+const buscaEls = {};
+function coletarElementosBusca() {
+  buscaEls.palavra = document.getElementById('fPalavra');
+  buscaEls.operacao = document.getElementById('fOperacao');
+  buscaEls.tipo = document.getElementById('fTipo');
+  buscaEls.cidade = document.getElementById('fCidade');
+  buscaEls.precoMin = document.getElementById('fPrecoMin');
+  buscaEls.precoMax = document.getElementById('fPrecoMax');
+  buscaEls.quartos = document.getElementById('fQuartos');
+  buscaEls.areaMin = document.getElementById('fAreaMin');
+  buscaEls.vaga = document.getElementById('fVaga');
+  buscaEls.destaque = document.getElementById('fDestaque');
+  buscaEls.ordenar = document.getElementById('ordenarSelect');
+  buscaEls.grid = document.getElementById('gridResultados');
+  buscaEls.contagem = document.getElementById('qtdResultados');
+  buscaEls.vazio = document.getElementById('estadoVazio');
+  buscaEls.paginacao = document.getElementById('paginacao');
+  buscaEls.btnLimpar = document.getElementById('btnLimpar');
+}
+
+function aplicarParametrosNaBusca(params) {
+  if (params.get('q')) buscaEls.palavra.value = params.get('q');
+  if (params.get('operacao')) buscaEls.operacao.value = params.get('operacao');
+  if (params.get('tipo')) buscaEls.tipo.value = params.get('tipo');
+  if (params.get('quartos')) buscaEls.quartos.value = params.get('quartos');
+  if (params.get('precoMax')) buscaEls.precoMax.value = params.get('precoMax');
+}
+
+function filtrarImoveis() {
+  const palavra = buscaEls.palavra.value.trim().toLowerCase();
+  const operacao = buscaEls.operacao.value;
+  const tipo = buscaEls.tipo.value;
+  const cidade = buscaEls.cidade.value;
+  const precoMin = parseFloat(buscaEls.precoMin.value) || 0;
+  const precoMax = parseFloat(buscaEls.precoMax.value) || Infinity;
+  const quartosMin = parseInt(buscaEls.quartos.value) || 0;
+  const areaMin = parseFloat(buscaEls.areaMin.value) || 0;
+  const somenteVaga = buscaEls.vaga.checked;
+  const somenteDestaque = buscaEls.destaque.checked;
+
+  return PROPERTIES.filter(im => {
+    const textoBusca = `${im.titulo} ${im.bairro} ${im.cidade} ${im.tipo}`.toLowerCase();
+    if (palavra && !textoBusca.includes(palavra)) return false;
+    if (operacao && im.operacao !== operacao) return false;
+    if (tipo && im.tipo !== tipo) return false;
+    if (cidade && im.cidade !== cidade) return false;
+    if (im.preco < precoMin || im.preco > precoMax) return false;
+    if (im.quartos < quartosMin) return false;
+    if (im.area < areaMin) return false;
+    if (somenteVaga && im.vagas < 1) return false;
+    if (somenteDestaque && !im.destaque) return false;
+    return true;
+  });
+}
+
+function ordenarImoveis(lista) {
+  const criterio = buscaEls.ordenar.value;
+  const copia = [...lista];
+  if (criterio === 'menor-preco') copia.sort((a, b) => a.preco - b.preco);
+  else if (criterio === 'maior-preco') copia.sort((a, b) => b.preco - a.preco);
+  else if (criterio === 'maior-area') copia.sort((a, b) => b.area - a.area);
+  else copia.sort((a, b) => (b.destaque === a.destaque) ? 0 : (b.destaque ? 1 : -1));
+  return copia;
+}
+
+function renderizarPaginacao(totalItens) {
+  const totalPaginas = Math.ceil(totalItens / ITENS_POR_PAGINA);
+  buscaEls.paginacao.innerHTML = '';
+  if (totalPaginas <= 1) return;
+  for (let i = 1; i <= totalPaginas; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === paginaAtual) btn.classList.add('ativa');
+    btn.addEventListener('click', () => {
+      paginaAtual = i;
+      renderizarResultadosBusca();
+      window.scrollTo({ top: buscaEls.grid.offsetTop - 120, behavior: 'smooth' });
+    });
+    buscaEls.paginacao.appendChild(btn);
+  }
+}
+
+function renderizarResultadosBusca() {
+  const filtrados = ordenarImoveis(filtrarImoveis());
+  buscaEls.contagem.textContent = filtrados.length;
+
+  if (filtrados.length === 0) {
+    buscaEls.grid.innerHTML = '';
+    buscaEls.vazio.classList.remove('oculto');
+    buscaEls.paginacao.innerHTML = '';
+    return;
+  }
+  buscaEls.vazio.classList.add('oculto');
+
+  const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+  const pagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
+  buscaEls.grid.innerHTML = pagina.map(criarCardImovel).join('');
+  renderizarPaginacao(filtrados.length);
+}
+
+function resetarPaginaERenderizarBusca() {
+  paginaAtual = 1;
+  renderizarResultadosBusca();
+}
+
+function initBusca(params) {
+  if (!filtrosInicializados) {
+    coletarElementosBusca();
+    popularSelect(buscaEls.tipo, TIPOS_DISPONIVEIS);
+    popularSelect(buscaEls.cidade, CIDADES_DISPONIVEIS);
+
+    [buscaEls.operacao, buscaEls.tipo, buscaEls.cidade, buscaEls.quartos, buscaEls.vaga, buscaEls.destaque, buscaEls.ordenar]
+      .forEach(el => el.addEventListener('change', resetarPaginaERenderizarBusca));
+
+    let debounceTimer;
+    [buscaEls.palavra, buscaEls.precoMin, buscaEls.precoMax, buscaEls.areaMin].forEach(el => {
+      el.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(resetarPaginaERenderizarBusca, 300);
+      });
+    });
+
+    buscaEls.btnLimpar.addEventListener('click', () => {
+      document.getElementById('formFiltros').reset();
+      resetarPaginaERenderizarBusca();
+    });
+
+    filtrosInicializados = true;
+  }
+
+  aplicarParametrosNaBusca(params);
+  resetarPaginaERenderizarBusca();
+}
+
+/* ============================================================
+   PÁGINA: DETALHE DO IMÓVEL
+   ============================================================ */
+let imovelAtual = null;
+let formImovelInicializado = false;
+
+function initImovel(params) {
+  const id = parseInt(params.get('id'));
+  imovelAtual = PROPERTIES.find(p => p.id === id);
+
+  const conteudo = document.querySelector('#page-imovel .detalhe-conteudo');
+  const galeria = document.getElementById('galeria');
+  const semelhantesSecao = document.querySelector('#page-imovel .semelhantes');
+
+  if (!imovelAtual) {
+    galeria.style.display = 'none';
+    semelhantesSecao.style.display = 'none';
+    conteudo.innerHTML = '<div class="estado-vazio"><h3>Imóvel não encontrado</h3><p>O imóvel que você procura pode ter sido removido ou o link está incorreto.</p></div>';
+    return;
+  }
+
+  galeria.style.display = '';
+  semelhantesSecao.style.display = '';
+  // Restaura estrutura original caso um "não encontrado" anterior tenha sobrescrito o conteúdo
+  if (!document.getElementById('specsRapidas')) {
+    location.reload();
+    return;
+  }
+
+  const im = imovelAtual;
+  document.getElementById('migalhaTitulo').textContent = im.titulo;
+  document.getElementById('detTitulo').textContent = im.titulo;
+  document.getElementById('detLocal').textContent = `${im.bairro}, ${im.cidade}`;
+  document.getElementById('detPreco').textContent = formatarPreco(im.preco, im.operacao);
+  document.getElementById('detOperacao').textContent = im.operacao === 'venda' ? 'Valor de venda' : 'Valor de aluguel mensal';
+  document.getElementById('detDescricao').textContent = im.descricao;
+  document.getElementById('detLocalizacaoTexto').textContent =
+    `Este imóvel está localizado no bairro ${im.bairro}, em ${im.cidade}, próximo a comércios, vias de acesso e pontos de interesse da região.`;
+
+  document.getElementById('imgPrincipal').src = im.imagens[0];
+  document.getElementById('imgPrincipal').alt = im.titulo;
+  const lateral = document.getElementById('galeriaLateral');
+  const imagensLaterais = im.imagens.slice(1, 3);
+  lateral.innerHTML = imagensLaterais.map((src, idx) => {
+    const ultima = idx === imagensLaterais.length - 1 && im.imagens.length > 3;
+    return `<div><img src="${src}" alt="${im.titulo}">${ultima ? `<div class="galeria__mais">+${im.imagens.length - 3} fotos</div>` : ''}</div>`;
+  }).join('');
+
+  const specs = [
+    { valor: im.quartos, label: 'Quartos' },
+    { valor: im.suites, label: 'Suítes' },
+    { valor: im.banheiros, label: 'Banheiros' },
+    { valor: im.vagas, label: 'Vagas' },
+    { valor: `${im.area}m²`, label: 'Área total' }
+  ];
+  document.getElementById('specsRapidas').innerHTML = specs.map(s => `
+    <div class="spec-item"><strong>${s.valor}</strong><span>${s.label}</span></div>
+  `).join('');
+
+  document.getElementById('listaComodidades').innerHTML = im.comodidades.map(c => `<li>${c}</li>`).join('');
+
+  const semelhantes = PROPERTIES.filter(p => p.id !== im.id && (p.cidade === im.cidade || p.tipo === im.tipo)).slice(0, 3);
+  document.getElementById('gridSemelhantes').innerHTML = semelhantes.length
+    ? semelhantes.map(criarCardImovel).join('')
+    : '<p style="color:var(--cinza-500);">Nenhum imóvel semelhante encontrado no momento.</p>';
+
+  if (!formImovelInicializado) {
+    document.getElementById('formContatoImovel').addEventListener('submit', function (e) {
+      mostrarToast('Interesse enviado! Em breve o corretor entrará em contato.');
+      this.reset();
+    });
+    formImovelInicializado = true;
+  }
+}
+
+/* ============================================================
+   INICIALIZAÇÃO GERAL (roda uma única vez ao carregar a página)
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Selects de tipo (busca rápida da home) e footer
+  popularSelect(document.getElementById('qTipo'), TIPOS_DISPONIVEIS);
+
+  const footerTipos = document.getElementById('footerTipos');
+  TIPOS_DISPONIVEIS.forEach(tipo => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#busca?tipo=${encodeURIComponent(tipo)}">${tipo}s</a>`;
+    footerTipos.appendChild(li);
+  });
+
+  // Estatística do hero
+  animarContador(document.getElementById('statTotal'), PROPERTIES.length * 47);
+
+  // Grid de destaques
+  const destaques = PROPERTIES.filter(p => p.destaque).slice(0, 6);
+  document.getElementById('gridDestaques').innerHTML = destaques.map(criarCardImovel).join('');
+
+  // Grid "explore por cidade"
+  const representantes = CIDADES_DISPONIVEIS.map(cidade => PROPERTIES.find(p => p.cidade === cidade)).filter(Boolean).slice(0, 6);
+  document.getElementById('gridCidades').innerHTML = representantes.map(criarCardImovel).join('');
+
+  // Tabs Comprar/Alugar
+  const tabs = document.querySelectorAll('.busca-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('ativa'));
+      tab.classList.add('ativa');
+    });
+  });
+
+  // Busca rápida da home -> navega para a rota #busca com os parâmetros escolhidos
+  document.getElementById('formBuscaRapida').addEventListener('submit', e => {
+    e.preventDefault();
+    const operacaoAtiva = document.querySelector('.busca-tab.ativa')?.dataset.op || '';
+    const params = new URLSearchParams();
+    const palavra = document.getElementById('qPalavra').value.trim();
+    const tipo = document.getElementById('qTipo').value;
+    const quartos = document.getElementById('qQuartos').value;
+    const precoMax = document.getElementById('qPrecoMax').value;
+
+    if (operacaoAtiva) params.set('operacao', operacaoAtiva);
+    if (palavra) params.set('q', palavra);
+    if (tipo) params.set('tipo', tipo);
+    if (quartos) params.set('quartos', quartos);
+    if (precoMax) params.set('precoMax', precoMax);
+
+    window.location.hash = '#busca?' + params.toString();
+  });
+
+  // Formulário de contato geral
+  document.getElementById('formContatoGeral').addEventListener('submit', function () {
+    mostrarToast('Mensagem enviada com sucesso!');
+    this.reset();
+  });
+
+  // Menu mobile
+  const menuToggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.nav');
+  menuToggle.addEventListener('click', () => {
+    const aberto = nav.style.display === 'flex';
+    nav.style.display = aberto ? 'none' : 'flex';
+    nav.style.flexDirection = 'column';
+    nav.style.position = 'absolute';
+    nav.style.top = '64px';
+    nav.style.left = '0';
+    nav.style.right = '0';
+    nav.style.background = 'var(--verde-900)';
+    nav.style.padding = '20px 28px';
+    nav.style.gap = '16px';
+  });
+
+  // Renderiza a rota inicial (lê o hash atual da URL, se houver)
+  renderizarRota();
+});
+</script>
+</body>
+</html>
