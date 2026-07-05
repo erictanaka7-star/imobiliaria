@@ -1,3 +1,74 @@
+
+Claude terminou a resposta
+
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Raiz Imóveis — Encontre o imóvel certo, no lugar certo</title> <style> /* ============================================================ RAIZ IMÓVE
+
+pasted
+
+arrume o bug q o filtro fi9ca bugado e fica um espaço  vag o do celular
+
+
+Investigou múltiplas causas potenciais do espaçamento vago mobile
+Investigou múltiplas causas potenciais do espaçamento vago mobile
+Consegui olhar o código, mas o relato "o filtro fica bugado e sobra um espaço vazio no celular" pode se referir a mais de um lugar diferente da página. Pra eu corrigir o problema certo, me diz onde isso acontece:
+
+P: Em qual parte do site isso acontece?
+R: Barra de busca rápida da página inicial (Comprar/Alugar)
+
+
+Investigou comportamento de margem e identificou possível problema de viewport móvel
+Investigou comportamento de margem e identificou possível problema de viewport móvel
+Não consegui reproduzir visualmente aqui (sem navegador no ambiente), então antes de sair mexendo no CSS às cegas, preciso entender melhor o sintoma. Na barra de busca rápida da home (com as abas Comprar/Alugar), o espaço vazio no celular aparece:
+
+Assim que a página carrega (antes de mexer em qualquer campo)?
+Depois que você toca em algum campo (o teclado do celular abre)?
+Depois que você aperta "Buscar imóveis" e é levado pra página de resultados?
+Ao trocar entre as abas "Comprar" e "Alugar"?
+Se puder, me manda também um print de tela do celular mostrando o espaço vazio — isso ajuda muito a identificar exatamente qual elemento está causando o problema.
+
+WhatsApp Image 2026-07-04 at 21.09.24.jpeg
+arrume isso
+
+
+Diagnosticou problema de zoom mobile e prescreveu correção CSS
+Diagnosticou problema de zoom mobile e prescreveu correção CSS
+Achei o problema. Os campos de busca (inputs/selects) usam font-size: 14.5px. No iPhone, quando o texto de um campo é menor que 16px, o Safari dá zoom automático ao tocar no campo — e às vezes esse zoom não volta ao normal depois, deixando a tela "grudada" naquele nível de zoom, com aquele espaço vazio bege sobrando do lado. É um bug clássico de mobile.
+
+Vou recriar o arquivo com a correção (aumentar a fonte dos campos para 16px no mobile, que é o limite seguro que evita esse zoom indesejado).
+
+
+Criou um arquivo, executou um comando, leu um arquivo
+Criou um arquivo, executou um comando, leu um arquivo
+
+Recriando o arquivo do site com a correção do bug de zoom em campos no mobile
+index.html
+
+Copiando o arquivo corrigido para a pasta de saída
+
+Script
+
+Presented file
+Concluído
+O que causava o bug: os campos de busca tinham font-size: 14.5px. No iPhone (Safari), sempre que um campo de texto tem fonte menor que 16px, o navegador dá um zoom automático ao tocar nele para facilitar a leitura — e às vezes esse zoom fica "preso", deixando a tela naquele nível ampliado com aquele espaço vazio bege sobrando do lado, exatamente como no seu print.
+
+A correção: adicionei uma regra que força todos os campos (input, select, textarea) a terem no mínimo 16px de fonte no celular, o que elimina o gatilho do zoom automático. O resto do visual não muda, só evita esse bug.
+
+
+Index
+Código · HTML 
+
+Da próxima vez, tente isso no Cowork
+
+Delegue tarefas complexas para o Claude lidar de forma independente. Volte para resultados finalizados.
+
+
+
+
+
+Claude é uma IA e pode cometer erros. Por favor, verifique as respostas.
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,7 +80,7 @@
    RAIZ IMÓVEIS — DESIGN SYSTEM (arquivo único)
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
-
+ 
 :root {
   --verde-900: #16241f; --verde-800: #1f3a30; --verde-700: #2c5142;
   --areia-100: #f6f1e7; --areia-200: #efe6d3; --areia-300: #e3d4b3;
@@ -33,7 +104,7 @@ ul { list-style: none; }
 h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-height: 1.15; color: var(--verde-900); }
 ::selection { background: var(--latao-400); color: var(--verde-900); }
 :focus-visible { outline: 2px solid var(--latao-500); outline-offset: 3px; }
-
+ 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 26px; border-radius: 999px; border: none; font-size: 14.5px; font-weight: 600; letter-spacing: 0.01em; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; white-space: nowrap; }
 .btn-primario { background: var(--latao-500); color: var(--verde-900); box-shadow: 0 10px 24px -10px rgba(176, 141, 87, 0.6); }
 .btn-primario:hover { transform: translateY(-2px); background: var(--latao-400); }
@@ -42,7 +113,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .btn-outline-escuro { background: transparent; color: var(--verde-900); border: 1.5px solid var(--verde-900); }
 .btn-outline-escuro:hover { background: var(--verde-900); color: var(--areia-100); }
 .btn-bloco { width: 100%; }
-
+ 
 /* HEADER */
 .header { position: sticky; top: 0; z-index: 100; background: var(--verde-900); border-bottom: 1px solid rgba(246, 241, 231, 0.08); }
 .header__inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; }
@@ -56,7 +127,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .header__acoes { display: flex; align-items: center; gap: 16px; }
 .menu-toggle { display: none; background: none; border: none; color: var(--areia-100); font-size: 26px; }
 @media (max-width: 900px) { .nav { display: none; } .menu-toggle { display: block; } }
-
+ 
 /* HERO */
 .hero { position: relative; background: linear-gradient(180deg, rgba(22,36,31,0.55) 0%, rgba(22,36,31,0.78) 100%), url('https://picsum.photos/seed/heroraiz/1800/1000') center/cover; padding: 110px 28px 150px; color: var(--areia-100); }
 .hero__inner { max-width: var(--largura-max); margin: 0 auto; }
@@ -68,7 +139,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .hero__stats { display: flex; gap: 48px; margin-top: 56px; flex-wrap: wrap; }
 .hero__stat strong { display: block; font-family: var(--fonte-display); font-size: 30px; color: var(--latao-400); }
 .hero__stat span { font-size: 13px; color: rgba(246, 241, 231, 0.65); }
-
+ 
 .busca-card { background: var(--branco); border-radius: var(--raio-lg); box-shadow: var(--sombra-elev); padding: 28px; margin-top: -88px; position: relative; z-index: 10; }
 .busca-tabs { display: flex; gap: 6px; margin-bottom: 22px; }
 .busca-tab { background: var(--areia-200); border: none; padding: 9px 20px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--cinza-500); }
@@ -80,7 +151,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .campo input:focus, .campo select:focus { border-color: var(--latao-500); outline: none; }
 .busca-grid .btn { height: 46px; padding: 0 28px; }
 @media (max-width: 980px) { .busca-grid { grid-template-columns: 1fr 1fr; } .busca-grid .btn { grid-column: 1 / -1; } }
-
+ 
 /* SEÇÕES */
 .secao { padding: 90px 28px; }
 .secao--escura { background: var(--verde-900); color: var(--areia-100); }
@@ -92,7 +163,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .secao--escura .secao__titulo { color: var(--areia-100); }
 .secao__desc { color: var(--cinza-500); max-width: 480px; font-size: 15px; }
 .secao--escura .secao__desc { color: rgba(246,241,231,0.7); }
-
+ 
 /* GRID DE IMÓVEIS */
 .imoveis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
 .imovel-card { background: var(--branco); border-radius: var(--raio-md); overflow: hidden; box-shadow: var(--sombra-card); transition: transform 0.22s ease, box-shadow 0.22s ease; display: flex; flex-direction: column; }
@@ -108,7 +179,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .imovel-card__local { font-size: 13.5px; color: var(--cinza-500); display: flex; align-items: center; gap: 5px; }
 .imovel-card__specs { display: flex; gap: 16px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--areia-200); font-size: 13px; color: var(--cinza-500); }
 .imovel-card__specs span { display: flex; align-items: center; gap: 5px; }
-
+ 
 /* BUSCA / FILTROS */
 .busca-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
 .filtros { background: var(--branco); border-radius: var(--raio-md); padding: 26px; box-shadow: var(--sombra-card); position: sticky; top: 100px; }
@@ -132,13 +203,13 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .paginacao button { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--areia-300); background: var(--branco); font-weight: 600; font-size: 14px; color: var(--tinta); }
 .paginacao button.ativa { background: var(--verde-900); color: var(--areia-100); border-color: var(--verde-900); }
 @media (max-width: 900px) { .busca-layout { grid-template-columns: 1fr; } .filtros { position: static; } }
-
+ 
 /* PROCESSO */
 .processo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
 .processo-num { font-family: var(--fonte-display); font-size: 44px; color: var(--latao-500); margin-bottom: 12px; display: block; }
 .processo-item h4 { font-size: 18px; margin-bottom: 8px; color: var(--areia-100); }
 .processo-item p { font-size: 14px; color: rgba(246,241,231,0.68); }
-
+ 
 /* DEPOIMENTOS */
 .depoimentos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 26px; }
 .depoimento-card { background: var(--branco); border-radius: var(--raio-md); padding: 28px; box-shadow: var(--sombra-card); }
@@ -148,12 +219,12 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .depoimento-autor img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
 .depoimento-autor strong { font-size: 14px; display: block; }
 .depoimento-autor span { font-size: 12.5px; color: var(--cinza-500); }
-
+ 
 /* CTA */
 .cta-final { background: linear-gradient(135deg, var(--verde-800), var(--verde-900)); border-radius: var(--raio-lg); padding: 64px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; color: var(--areia-100); }
 .cta-final h2 { color: var(--areia-100); font-size: 30px; max-width: 460px; }
 .cta-final p { color: rgba(246,241,231,0.7); margin-top: 10px; max-width: 420px; }
-
+ 
 /* FOOTER */
 .footer { background: var(--tinta); color: rgba(246,241,231,0.7); padding: 70px 28px 26px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 50px; }
@@ -164,7 +235,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .footer ul a:hover { color: var(--latao-400); }
 .footer-base { border-top: 1px solid rgba(246,241,231,0.1); padding-top: 22px; display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(246,241,231,0.45); flex-wrap: wrap; gap: 10px; }
 @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-
+ 
 /* DETALHE DO IMÓVEL */
 .migalha { font-size: 13px; color: var(--cinza-500); padding: 22px 28px 0; max-width: var(--largura-max); margin: 0 auto; }
 .migalha a:hover { color: var(--verde-900); }
@@ -204,7 +275,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .contato-card input, .contato-card textarea { border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 11px 13px; font-size: 14px; font-family: inherit; background: var(--areia-100); resize: vertical; }
 .contato-card textarea { min-height: 90px; }
 .semelhantes { max-width: var(--largura-max); margin: 0 auto 90px; padding: 0 28px; }
-
+ 
 /* SOBRE */
 .sobre-hero { background: var(--verde-900); color: var(--areia-100); padding: 90px 28px 70px; text-align: center; }
 .sobre-hero h1 { color: var(--areia-100); font-size: clamp(32px, 4.5vw, 50px); max-width: 700px; margin: 0 auto 18px; }
@@ -219,7 +290,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .equipe-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--raio-md); margin-bottom: 14px; }
 .equipe-card strong { display: block; font-size: 16px; }
 .equipe-card span { font-size: 13px; color: var(--latao-500); }
-
+ 
 /* CONTATO */
 .contato-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
 .contato-info-card { background: var(--verde-900); color: var(--areia-100); border-radius: var(--raio-lg); padding: 40px; }
@@ -235,7 +306,15 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .form-grande input, .form-grande select, .form-grande textarea { width: 100%; border: 1.5px solid var(--areia-300); border-radius: var(--raio-sm); padding: 12px 14px; font-size: 14.5px; font-family: inherit; background: var(--areia-100); }
 .form-grande textarea { min-height: 130px; resize: vertical; }
 @media (max-width: 900px) { .contato-layout { grid-template-columns: 1fr; } .form-linha { grid-template-columns: 1fr; } .detalhe-conteudo { grid-template-columns: 1fr; } .contato-card { position: static; } }
-
+ 
+/* CORREÇÃO MOBILE: evita o zoom automático do Safari/iOS ao tocar em campos
+   com fonte menor que 16px. Esse zoom, ao não voltar ao normal, é o que
+   causava a sensação de "espaço vago" sobrando na tela depois de tocar
+   em qualquer campo de busca/filtro no celular. */
+@media (max-width: 980px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+ 
 /* UTILITÁRIOS */
 .oculto { display: none !important; }
 .page { display: none; }
@@ -245,7 +324,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 </style>
 </head>
 <body>
-
+ 
 <!-- ===================== HEADER (compartilhado por todas as "páginas") ===================== -->
 <header class="header">
   <div class="header__inner">
@@ -265,9 +344,9 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </div>
 </header>
-
+ 
 <main>
-
+ 
 <!-- ===================== PÁGINA: INÍCIO ===================== -->
 <section class="page ativa" id="page-inicio">
   <section class="hero">
@@ -283,7 +362,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
-
+ 
   <div class="container">
     <div class="busca-card">
       <div class="busca-tabs">
@@ -315,7 +394,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </form>
     </div>
   </div>
-
+ 
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -325,7 +404,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <div class="imoveis-grid" id="gridDestaques"></div>
     </div>
   </section>
-
+ 
   <section class="secao secao--escura">
     <div class="container">
       <div class="secao__cabecalho">
@@ -343,7 +422,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
-
+ 
   <section class="secao secao--alt">
     <div class="container">
       <div class="secao__cabecalho">
@@ -352,7 +431,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <div class="imoveis-grid" id="gridCidades"></div>
     </div>
   </section>
-
+ 
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -377,7 +456,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
-
+ 
   <section class="secao" style="padding-top:0;">
     <div class="container">
       <div class="cta-final">
@@ -387,7 +466,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
-
+ 
 <!-- ===================== PÁGINA: BUSCA ===================== -->
 <section class="page" id="page-busca">
   <section style="background: var(--verde-900); padding: 46px 28px;">
@@ -396,7 +475,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <h1 style="color: var(--areia-100); font-size: clamp(26px, 3.4vw, 38px);">Encontre o imóvel ideal com nossos filtros</h1>
     </div>
   </section>
-
+ 
   <section class="secao" style="padding-top: 50px;">
     <div class="container">
       <div class="busca-layout">
@@ -452,7 +531,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
             <button type="button" id="btnLimpar" class="btn btn-outline-escuro btn-bloco">Limpar filtros</button>
           </form>
         </aside>
-
+ 
         <div>
           <div class="resultados-cabecalho">
             <p class="resultados-contagem"><strong id="qtdResultados">0</strong> imóveis encontrados</p>
@@ -477,7 +556,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
-
+ 
 <!-- ===================== PÁGINA: DETALHE DO IMÓVEL ===================== -->
 <section class="page" id="page-imovel">
   <p class="migalha">
@@ -485,7 +564,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     <a href="#busca">Imóveis</a><span>/</span>
     <span id="migalhaTitulo">Carregando...</span>
   </p>
-
+ 
   <div class="detalhe-topo">
     <div class="detalhe-titulo">
       <h1 id="detTitulo">—</h1>
@@ -496,12 +575,12 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <span id="detOperacao"></span>
     </div>
   </div>
-
+ 
   <div class="galeria" id="galeria">
     <div class="galeria__principal"><img id="imgPrincipal" src="" alt=""></div>
     <div class="galeria__lateral" id="galeriaLateral"></div>
   </div>
-
+ 
   <div class="detalhe-conteudo">
     <main>
       <div class="specs-rapidas" id="specsRapidas"></div>
@@ -529,7 +608,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </form>
     </aside>
   </div>
-
+ 
   <section class="semelhantes">
     <div class="secao__cabecalho">
       <div><span class="secao__eyebrow">Você também pode gostar</span><h2 class="secao__titulo">Imóveis semelhantes</h2></div>
@@ -537,7 +616,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     <div class="imoveis-grid" id="gridSemelhantes"></div>
   </section>
 </section>
-
+ 
 <!-- ===================== PÁGINA: SOBRE ===================== -->
 <section class="page" id="page-sobre">
   <section class="sobre-hero">
@@ -545,7 +624,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     <h1>Conectamos pessoas a lugares desde 2009</h1>
     <p>Começamos como uma pequena imobiliária de bairro e crescemos mantendo o mesmo princípio: cada cliente merece atenção de verdade, não apenas uma lista de imóveis.</p>
   </section>
-
+ 
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -559,7 +638,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
-
+ 
   <section class="secao secao--alt">
     <div class="container">
       <div class="secao__cabecalho">
@@ -573,7 +652,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
-
+ 
   <section class="secao">
     <div class="container">
       <div class="cta-final">
@@ -583,7 +662,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
-
+ 
 <!-- ===================== PÁGINA: CONTATO ===================== -->
 <section class="page" id="page-contato">
   <section style="background: var(--verde-900); padding: 56px 28px;">
@@ -592,7 +671,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <h1 style="color: var(--areia-100); font-size: clamp(28px, 3.6vw, 42px); max-width:600px;">Vamos encontrar o imóvel certo para você</h1>
     </div>
   </section>
-
+ 
   <section class="secao">
     <div class="container">
       <div class="contato-layout">
@@ -606,7 +685,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
             <img src="https://picsum.photos/seed/escritorio/700/360" alt="Fachada do escritório" style="width:100%; height:200px; object-fit:cover;">
           </div>
         </div>
-
+ 
         <form class="form-grande" id="formContatoGeral" onsubmit="return false;">
           <h3 style="margin-bottom:22px;">Envie sua mensagem</h3>
           <div class="form-linha">
@@ -630,9 +709,9 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
-
+ 
 </main>
-
+ 
 <!-- ===================== FOOTER (compartilhado) ===================== -->
 <footer class="footer">
   <div class="container">
@@ -666,9 +745,9 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </div>
 </footer>
-
+ 
 <div class="toast" id="toast">Interesse enviado com sucesso!</div>
-
+ 
 <script>
 /* ============================================================
    DADOS DOS IMÓVEIS
@@ -705,7 +784,7 @@ const PROPERTIES = [
 ];
 const CIDADES_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.cidade))].sort();
 const TIPOS_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.tipo))].sort();
-
+ 
 /* ============================================================
    FUNÇÕES COMPARTILHADAS
    ============================================================ */
@@ -713,7 +792,7 @@ function formatarPreco(valor, operacao) {
   const formatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   return operacao === 'aluguel' ? `${formatado}/mês` : formatado;
 }
-
+ 
 function criarCardImovel(imovel) {
   const operacaoLabel = imovel.operacao === 'venda' ? 'Venda' : 'Aluguel';
   return `
@@ -735,7 +814,7 @@ function criarCardImovel(imovel) {
       </div>
     </a>`;
 }
-
+ 
 function popularSelect(elemento, opcoes) {
   if (!elemento) return;
   opcoes.forEach(op => {
@@ -744,7 +823,7 @@ function popularSelect(elemento, opcoes) {
     elemento.appendChild(o);
   });
 }
-
+ 
 function mostrarToast(mensagem) {
   const toast = document.getElementById('toast');
   if (!toast) return;
@@ -752,7 +831,7 @@ function mostrarToast(mensagem) {
   toast.classList.add('mostrar');
   setTimeout(() => toast.classList.remove('mostrar'), 3200);
 }
-
+ 
 function animarContador(elemento, alvo, duracao = 900) {
   if (!elemento) return;
   const inicio = performance.now();
@@ -763,7 +842,7 @@ function animarContador(elemento, alvo, duracao = 900) {
   }
   requestAnimationFrame(passo);
 }
-
+ 
 /* ============================================================
    ROTEADOR (simula múltiplas páginas usando a #hash da URL)
    ============================================================ */
@@ -773,21 +852,21 @@ function analisarHash() {
   const [rota, queryString] = hash.split('?');
   return { rota: rota || 'inicio', params: new URLSearchParams(queryString || '') };
 }
-
+ 
 function renderizarRota() {
   const { rota, params } = analisarHash();
   const rotasValidas = ['inicio', 'busca', 'imovel', 'sobre', 'contato'];
   const rotaFinal = rotasValidas.includes(rota) ? rota : 'inicio';
-
+ 
   document.querySelectorAll('.page').forEach(p => p.classList.remove('ativa'));
   document.getElementById('page-' + rotaFinal).classList.add('ativa');
-
+ 
   document.querySelectorAll('.nav a').forEach(a => {
     a.classList.toggle('ativo', a.dataset.route === rotaFinal);
   });
-
+ 
   window.scrollTo({ top: 0 });
-
+ 
   const titulos = {
     inicio: 'Raiz Imóveis — Encontre o imóvel certo, no lugar certo',
     busca: 'Buscar imóveis — Raiz Imóveis',
@@ -795,20 +874,20 @@ function renderizarRota() {
     contato: 'Contato — Raiz Imóveis'
   };
   document.title = titulos[rotaFinal] || titulos.inicio;
-
+ 
   if (rotaFinal === 'busca') initBusca(params);
   if (rotaFinal === 'imovel') initImovel(params);
 }
-
+ 
 window.addEventListener('hashchange', renderizarRota);
-
+ 
 /* ============================================================
    PÁGINA: BUSCA — filtros, ordenação e paginação
    ============================================================ */
 const ITENS_POR_PAGINA = 9;
 let paginaAtual = 1;
 let filtrosInicializados = false;
-
+ 
 const buscaEls = {};
 function coletarElementosBusca() {
   buscaEls.palavra = document.getElementById('fPalavra');
@@ -828,7 +907,7 @@ function coletarElementosBusca() {
   buscaEls.paginacao = document.getElementById('paginacao');
   buscaEls.btnLimpar = document.getElementById('btnLimpar');
 }
-
+ 
 function aplicarParametrosNaBusca(params) {
   if (params.get('q')) buscaEls.palavra.value = params.get('q');
   if (params.get('operacao')) buscaEls.operacao.value = params.get('operacao');
@@ -836,7 +915,7 @@ function aplicarParametrosNaBusca(params) {
   if (params.get('quartos')) buscaEls.quartos.value = params.get('quartos');
   if (params.get('precoMax')) buscaEls.precoMax.value = params.get('precoMax');
 }
-
+ 
 function filtrarImoveis() {
   const palavra = buscaEls.palavra.value.trim().toLowerCase();
   const operacao = buscaEls.operacao.value;
@@ -848,7 +927,7 @@ function filtrarImoveis() {
   const areaMin = parseFloat(buscaEls.areaMin.value) || 0;
   const somenteVaga = buscaEls.vaga.checked;
   const somenteDestaque = buscaEls.destaque.checked;
-
+ 
   return PROPERTIES.filter(im => {
     const textoBusca = `${im.titulo} ${im.bairro} ${im.cidade} ${im.tipo}`.toLowerCase();
     if (palavra && !textoBusca.includes(palavra)) return false;
@@ -863,7 +942,7 @@ function filtrarImoveis() {
     return true;
   });
 }
-
+ 
 function ordenarImoveis(lista) {
   const criterio = buscaEls.ordenar.value;
   const copia = [...lista];
@@ -873,7 +952,7 @@ function ordenarImoveis(lista) {
   else copia.sort((a, b) => (b.destaque === a.destaque) ? 0 : (b.destaque ? 1 : -1));
   return copia;
 }
-
+ 
 function renderizarPaginacao(totalItens) {
   const totalPaginas = Math.ceil(totalItens / ITENS_POR_PAGINA);
   buscaEls.paginacao.innerHTML = '';
@@ -890,11 +969,11 @@ function renderizarPaginacao(totalItens) {
     buscaEls.paginacao.appendChild(btn);
   }
 }
-
+ 
 function renderizarResultadosBusca() {
   const filtrados = ordenarImoveis(filtrarImoveis());
   buscaEls.contagem.textContent = filtrados.length;
-
+ 
   if (filtrados.length === 0) {
     buscaEls.grid.innerHTML = '';
     buscaEls.vazio.classList.remove('oculto');
@@ -902,27 +981,27 @@ function renderizarResultadosBusca() {
     return;
   }
   buscaEls.vazio.classList.add('oculto');
-
+ 
   const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
   const pagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
   buscaEls.grid.innerHTML = pagina.map(criarCardImovel).join('');
   renderizarPaginacao(filtrados.length);
 }
-
+ 
 function resetarPaginaERenderizarBusca() {
   paginaAtual = 1;
   renderizarResultadosBusca();
 }
-
+ 
 function initBusca(params) {
   if (!filtrosInicializados) {
     coletarElementosBusca();
     popularSelect(buscaEls.tipo, TIPOS_DISPONIVEIS);
     popularSelect(buscaEls.cidade, CIDADES_DISPONIVEIS);
-
+ 
     [buscaEls.operacao, buscaEls.tipo, buscaEls.cidade, buscaEls.quartos, buscaEls.vaga, buscaEls.destaque, buscaEls.ordenar]
       .forEach(el => el.addEventListener('change', resetarPaginaERenderizarBusca));
-
+ 
     let debounceTimer;
     [buscaEls.palavra, buscaEls.precoMin, buscaEls.precoMax, buscaEls.areaMin].forEach(el => {
       el.addEventListener('input', () => {
@@ -930,40 +1009,40 @@ function initBusca(params) {
         debounceTimer = setTimeout(resetarPaginaERenderizarBusca, 300);
       });
     });
-
+ 
     buscaEls.btnLimpar.addEventListener('click', () => {
       document.getElementById('formFiltros').reset();
       resetarPaginaERenderizarBusca();
     });
-
+ 
     filtrosInicializados = true;
   }
-
+ 
   aplicarParametrosNaBusca(params);
   resetarPaginaERenderizarBusca();
 }
-
+ 
 /* ============================================================
    PÁGINA: DETALHE DO IMÓVEL
    ============================================================ */
 let imovelAtual = null;
 let formImovelInicializado = false;
-
+ 
 function initImovel(params) {
   const id = parseInt(params.get('id'));
   imovelAtual = PROPERTIES.find(p => p.id === id);
-
+ 
   const conteudo = document.querySelector('#page-imovel .detalhe-conteudo');
   const galeria = document.getElementById('galeria');
   const semelhantesSecao = document.querySelector('#page-imovel .semelhantes');
-
+ 
   if (!imovelAtual) {
     galeria.style.display = 'none';
     semelhantesSecao.style.display = 'none';
     conteudo.innerHTML = '<div class="estado-vazio"><h3>Imóvel não encontrado</h3><p>O imóvel que você procura pode ter sido removido ou o link está incorreto.</p></div>';
     return;
   }
-
+ 
   galeria.style.display = '';
   semelhantesSecao.style.display = '';
   // Restaura estrutura original caso um "não encontrado" anterior tenha sobrescrito o conteúdo
@@ -971,7 +1050,7 @@ function initImovel(params) {
     location.reload();
     return;
   }
-
+ 
   const im = imovelAtual;
   document.getElementById('migalhaTitulo').textContent = im.titulo;
   document.getElementById('detTitulo').textContent = im.titulo;
@@ -981,7 +1060,7 @@ function initImovel(params) {
   document.getElementById('detDescricao').textContent = im.descricao;
   document.getElementById('detLocalizacaoTexto').textContent =
     `Este imóvel está localizado no bairro ${im.bairro}, em ${im.cidade}, próximo a comércios, vias de acesso e pontos de interesse da região.`;
-
+ 
   document.getElementById('imgPrincipal').src = im.imagens[0];
   document.getElementById('imgPrincipal').alt = im.titulo;
   const lateral = document.getElementById('galeriaLateral');
@@ -990,7 +1069,7 @@ function initImovel(params) {
     const ultima = idx === imagensLaterais.length - 1 && im.imagens.length > 3;
     return `<div><img src="${src}" alt="${im.titulo}">${ultima ? `<div class="galeria__mais">+${im.imagens.length - 3} fotos</div>` : ''}</div>`;
   }).join('');
-
+ 
   const specs = [
     { valor: im.quartos, label: 'Quartos' },
     { valor: im.suites, label: 'Suítes' },
@@ -1001,14 +1080,14 @@ function initImovel(params) {
   document.getElementById('specsRapidas').innerHTML = specs.map(s => `
     <div class="spec-item"><strong>${s.valor}</strong><span>${s.label}</span></div>
   `).join('');
-
+ 
   document.getElementById('listaComodidades').innerHTML = im.comodidades.map(c => `<li>${c}</li>`).join('');
-
+ 
   const semelhantes = PROPERTIES.filter(p => p.id !== im.id && (p.cidade === im.cidade || p.tipo === im.tipo)).slice(0, 3);
   document.getElementById('gridSemelhantes').innerHTML = semelhantes.length
     ? semelhantes.map(criarCardImovel).join('')
     : '<p style="color:var(--cinza-500);">Nenhum imóvel semelhante encontrado no momento.</p>';
-
+ 
   if (!formImovelInicializado) {
     document.getElementById('formContatoImovel').addEventListener('submit', function (e) {
       mostrarToast('Interesse enviado! Em breve o corretor entrará em contato.');
@@ -1017,32 +1096,32 @@ function initImovel(params) {
     formImovelInicializado = true;
   }
 }
-
+ 
 /* ============================================================
    INICIALIZAÇÃO GERAL (roda uma única vez ao carregar a página)
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   // Selects de tipo (busca rápida da home) e footer
   popularSelect(document.getElementById('qTipo'), TIPOS_DISPONIVEIS);
-
+ 
   const footerTipos = document.getElementById('footerTipos');
   TIPOS_DISPONIVEIS.forEach(tipo => {
     const li = document.createElement('li');
     li.innerHTML = `<a href="#busca?tipo=${encodeURIComponent(tipo)}">${tipo}s</a>`;
     footerTipos.appendChild(li);
   });
-
+ 
   // Estatística do hero
   animarContador(document.getElementById('statTotal'), PROPERTIES.length * 47);
-
+ 
   // Grid de destaques
   const destaques = PROPERTIES.filter(p => p.destaque).slice(0, 6);
   document.getElementById('gridDestaques').innerHTML = destaques.map(criarCardImovel).join('');
-
+ 
   // Grid "explore por cidade"
   const representantes = CIDADES_DISPONIVEIS.map(cidade => PROPERTIES.find(p => p.cidade === cidade)).filter(Boolean).slice(0, 6);
   document.getElementById('gridCidades').innerHTML = representantes.map(criarCardImovel).join('');
-
+ 
   // Tabs Comprar/Alugar
   const tabs = document.querySelectorAll('.busca-tab');
   tabs.forEach(tab => {
@@ -1051,7 +1130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.classList.add('ativa');
     });
   });
-
+ 
   // Busca rápida da home -> navega para a rota #busca com os parâmetros escolhidos
   document.getElementById('formBuscaRapida').addEventListener('submit', e => {
     e.preventDefault();
@@ -1061,22 +1140,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipo = document.getElementById('qTipo').value;
     const quartos = document.getElementById('qQuartos').value;
     const precoMax = document.getElementById('qPrecoMax').value;
-
+ 
     if (operacaoAtiva) params.set('operacao', operacaoAtiva);
     if (palavra) params.set('q', palavra);
     if (tipo) params.set('tipo', tipo);
     if (quartos) params.set('quartos', quartos);
     if (precoMax) params.set('precoMax', precoMax);
-
+ 
     window.location.hash = '#busca?' + params.toString();
   });
-
+ 
   // Formulário de contato geral
   document.getElementById('formContatoGeral').addEventListener('submit', function () {
     mostrarToast('Mensagem enviada com sucesso!');
     this.reset();
   });
-
+ 
   // Menu mobile
   const menuToggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -1092,10 +1171,13 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.style.padding = '20px 28px';
     nav.style.gap = '16px';
   });
-
+ 
   // Renderiza a rota inicial (lê o hash atual da URL, se houver)
   renderizarRota();
 });
 </script>
 </body>
 </html>
+ 
+
+
