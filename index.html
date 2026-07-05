@@ -1,4 +1,3 @@
-
 <!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Raiz Imóveis — Encontre o imóvel certo, no lugar certo</title> <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
@@ -23,6 +22,7 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 ul { list-style: none; }
 .container { max-width: var(--largura-max); margin: 0 auto; padding: 0 28px; }
+@media (max-width: 480px) { .container { padding: 0 18px; } }
 h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-height: 1.15; color: var(--verde-900); }
 ::selection { background: var(--latao-400); color: var(--verde-900); }
 :focus-visible { outline: 2px solid var(--latao-500); outline-offset: 3px; }
@@ -73,6 +73,12 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .campo input:focus, .campo select:focus { border-color: var(--latao-500); outline: none; }
 .busca-grid .btn { height: 46px; padding: 0 28px; }
 @media (max-width: 980px) { .busca-grid { grid-template-columns: 1fr 1fr; } .busca-grid .btn { grid-column: 1 / -1; } }
+@media (max-width: 640px) {
+  .busca-card { padding: 22px 18px; margin-top: -60px; }
+  .busca-grid { grid-template-columns: 1fr; gap: 12px; }
+  .busca-grid .btn { grid-column: auto; width: 100%; }
+  .busca-tabs { flex-wrap: wrap; }
+}
  
 /* SEÇÕES */
 .secao { padding: 90px 28px; }
@@ -169,7 +175,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .detalhe-preco { font-family: var(--fonte-display); font-size: 32px; color: var(--verde-900); }
 .detalhe-preco span { font-size: 13px; color: var(--cinza-500); font-family: var(--fonte-corpo); display: block; }
 .galeria { max-width: var(--largura-max); margin: 28px auto 0; padding: 0 28px; display: grid; grid-template-columns: 2fr 1fr; gap: 14px; height: 460px; }
-.galeria__principal { border-radius: var(--raio-md); overflow: hidden; }
+.galeria__principal { border-radius: var(--raio-md); overflow: hidden; cursor: pointer; }
 .galeria__principal img { width: 100%; height: 100%; object-fit: cover; }
 .galeria__lateral { display: grid; grid-template-rows: 1fr 1fr; gap: 14px; }
 .galeria__lateral div { border-radius: var(--raio-md); overflow: hidden; position: relative; }
@@ -229,13 +235,39 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 .form-grande textarea { min-height: 130px; resize: vertical; }
 @media (max-width: 900px) { .contato-layout { grid-template-columns: 1fr; } .form-linha { grid-template-columns: 1fr; } .detalhe-conteudo { grid-template-columns: 1fr; } .contato-card { position: static; } }
  
-/* CORREÇÃO MOBILE: evita o zoom automático do Safari/iOS ao tocar em campos
-   com fonte menor que 16px. Esse zoom, ao não voltar ao normal, é o que
-   causava a sensação de "espaço vago" sobrando na tela depois de tocar
-   em qualquer campo de busca/filtro no celular. */
+/* CORREÇÃO MOBILE (parte 1): evita o zoom automático do Safari/iOS ao tocar
+   em campos com fonte menor que 16px. */
 @media (max-width: 980px) {
   input, select, textarea { font-size: 16px !important; }
 }
+
+/* CORREÇÃO MOBILE (parte 2): impede rolagem horizontal fantasma que também
+   contribuía para sobrar espaço em branco ao lado/abaixo do conteúdo quando
+   o teclado do celular abre e fecha. */
+html, body { overflow-x: hidden; width: 100%; }
+
+/* LIGHTBOX DE FOTOS DO IMÓVEL */
+.lightbox { position: fixed; inset: 0; background: rgba(15, 20, 18, 0.94); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
+.lightbox.aberto { display: flex; }
+.lightbox__conteudo { position: relative; width: 100%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.lightbox__imagem-wrap { width: 100%; max-height: 78vh; display: flex; align-items: center; justify-content: center; }
+.lightbox__imagem-wrap img { max-width: 100%; max-height: 78vh; width: auto; height: auto; object-fit: contain; border-radius: var(--raio-md); background: var(--tinta); }
+.lightbox__fechar { position: absolute; top: -8px; right: -8px; width: 42px; height: 42px; border-radius: 50%; background: var(--areia-100); color: var(--verde-900); border: none; font-size: 22px; display: flex; align-items: center; justify-content: center; box-shadow: var(--sombra-card); }
+.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; background: rgba(246,241,231,0.15); color: var(--areia-100); border: 1.5px solid rgba(246,241,231,0.3); font-size: 22px; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease; }
+.lightbox__nav:hover { background: rgba(246,241,231,0.3); }
+.lightbox__nav--anterior { left: -8px; }
+.lightbox__nav--proximo { right: -8px; }
+@media (max-width: 700px) {
+  .lightbox__nav { width: 40px; height: 40px; font-size: 18px; }
+  .lightbox__nav--anterior { left: 4px; }
+  .lightbox__nav--proximo { right: 4px; }
+  .lightbox__fechar { top: 6px; right: 6px; }
+}
+.lightbox__contador { color: rgba(246,241,231,0.75); font-size: 13.5px; letter-spacing: 0.04em; }
+.lightbox__miniaturas { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding-bottom: 4px; }
+.lightbox__miniaturas img { width: 68px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.55; flex-shrink: 0; border: 2px solid transparent; transition: opacity 0.15s ease, border-color 0.15s ease; }
+.lightbox__miniaturas img:hover { opacity: 0.85; }
+.lightbox__miniaturas img.ativa { opacity: 1; border-color: var(--latao-400); }
  
 /* UTILITÁRIOS */
 .oculto { display: none !important; }
@@ -246,8 +278,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
 </style>
 </head>
 <body>
- 
-<!-- ===================== HEADER (compartilhado por todas as "páginas") ===================== -->
+
 <header class="header">
   <div class="header__inner">
     <a href="#inicio" data-route="inicio" class="marca">
@@ -266,10 +297,9 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </div>
 </header>
- 
+
 <main>
- 
-<!-- ===================== PÁGINA: INÍCIO ===================== -->
+
 <section class="page ativa" id="page-inicio">
   <section class="hero">
     <div class="hero__inner">
@@ -284,7 +314,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
- 
+
   <div class="container">
     <div class="busca-card">
       <div class="busca-tabs">
@@ -316,7 +346,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </form>
     </div>
   </div>
- 
+
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -326,7 +356,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <div class="imoveis-grid" id="gridDestaques"></div>
     </div>
   </section>
- 
+
   <section class="secao secao--escura">
     <div class="container">
       <div class="secao__cabecalho">
@@ -344,7 +374,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
- 
+
   <section class="secao secao--alt">
     <div class="container">
       <div class="secao__cabecalho">
@@ -353,7 +383,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <div class="imoveis-grid" id="gridCidades"></div>
     </div>
   </section>
- 
+
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -378,7 +408,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
- 
+
   <section class="secao" style="padding-top:0;">
     <div class="container">
       <div class="cta-final">
@@ -388,8 +418,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
- 
-<!-- ===================== PÁGINA: BUSCA ===================== -->
+
 <section class="page" id="page-busca">
   <section style="background: var(--verde-900); padding: 46px 28px;">
     <div class="container">
@@ -397,7 +426,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <h1 style="color: var(--areia-100); font-size: clamp(26px, 3.4vw, 38px);">Encontre o imóvel ideal com nossos filtros</h1>
     </div>
   </section>
- 
+
   <section class="secao" style="padding-top: 50px;">
     <div class="container">
       <div class="busca-layout">
@@ -453,7 +482,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
             <button type="button" id="btnLimpar" class="btn btn-outline-escuro btn-bloco">Limpar filtros</button>
           </form>
         </aside>
- 
+
         <div>
           <div class="resultados-cabecalho">
             <p class="resultados-contagem"><strong id="qtdResultados">0</strong> imóveis encontrados</p>
@@ -478,15 +507,14 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
- 
-<!-- ===================== PÁGINA: DETALHE DO IMÓVEL ===================== -->
+
 <section class="page" id="page-imovel">
   <p class="migalha">
     <a href="#inicio">Início</a><span>/</span>
     <a href="#busca">Imóveis</a><span>/</span>
     <span id="migalhaTitulo">Carregando...</span>
   </p>
- 
+
   <div class="detalhe-topo">
     <div class="detalhe-titulo">
       <h1 id="detTitulo">—</h1>
@@ -497,12 +525,12 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <span id="detOperacao"></span>
     </div>
   </div>
- 
+
   <div class="galeria" id="galeria">
-    <div class="galeria__principal"><img id="imgPrincipal" src="" alt=""></div>
+    <div class="galeria__principal" id="galeriaPrincipalWrap"><img id="imgPrincipal" src="" alt=""></div>
     <div class="galeria__lateral" id="galeriaLateral"></div>
   </div>
- 
+
   <div class="detalhe-conteudo">
     <main>
       <div class="specs-rapidas" id="specsRapidas"></div>
@@ -530,7 +558,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </form>
     </aside>
   </div>
- 
+
   <section class="semelhantes">
     <div class="secao__cabecalho">
       <div><span class="secao__eyebrow">Você também pode gostar</span><h2 class="secao__titulo">Imóveis semelhantes</h2></div>
@@ -538,15 +566,14 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     <div class="imoveis-grid" id="gridSemelhantes"></div>
   </section>
 </section>
- 
-<!-- ===================== PÁGINA: SOBRE ===================== -->
+
 <section class="page" id="page-sobre">
   <section class="sobre-hero">
     <span class="hero__eyebrow" style="justify-content:center;">Nossa história</span>
     <h1>Conectamos pessoas a lugares desde 2009</h1>
     <p>Começamos como uma pequena imobiliária de bairro e crescemos mantendo o mesmo princípio: cada cliente merece atenção de verdade, não apenas uma lista de imóveis.</p>
   </section>
- 
+
   <section class="secao">
     <div class="container">
       <div class="secao__cabecalho">
@@ -560,7 +587,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
- 
+
   <section class="secao secao--alt">
     <div class="container">
       <div class="secao__cabecalho">
@@ -574,7 +601,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       </div>
     </div>
   </section>
- 
+
   <section class="secao">
     <div class="container">
       <div class="cta-final">
@@ -584,8 +611,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
- 
-<!-- ===================== PÁGINA: CONTATO ===================== -->
+
 <section class="page" id="page-contato">
   <section style="background: var(--verde-900); padding: 56px 28px;">
     <div class="container">
@@ -593,7 +619,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
       <h1 style="color: var(--areia-100); font-size: clamp(28px, 3.6vw, 42px); max-width:600px;">Vamos encontrar o imóvel certo para você</h1>
     </div>
   </section>
- 
+
   <section class="secao">
     <div class="container">
       <div class="contato-layout">
@@ -607,7 +633,7 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
             <img src="https://picsum.photos/seed/escritorio/700/360" alt="Fachada do escritório" style="width:100%; height:200px; object-fit:cover;">
           </div>
         </div>
- 
+
         <form class="form-grande" id="formContatoGeral" onsubmit="return false;">
           <h3 style="margin-bottom:22px;">Envie sua mensagem</h3>
           <div class="form-linha">
@@ -631,10 +657,9 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </section>
 </section>
- 
+
 </main>
- 
-<!-- ===================== FOOTER (compartilhado) ===================== -->
+
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -667,13 +692,24 @@ h1, h2, h3, h4 { font-family: var(--fonte-display); font-weight: 600; line-heigh
     </div>
   </div>
 </footer>
- 
+
 <div class="toast" id="toast">Interesse enviado com sucesso!</div>
- 
+
+<!-- LIGHTBOX DE FOTOS -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox__conteudo">
+    <button type="button" class="lightbox__fechar" id="lightboxFechar" aria-label="Fechar">✕</button>
+    <button type="button" class="lightbox__nav lightbox__nav--anterior" id="lightboxAnterior" aria-label="Foto anterior">‹</button>
+    <div class="lightbox__imagem-wrap">
+      <img id="lightboxImagem" src="" alt="">
+    </div>
+    <button type="button" class="lightbox__nav lightbox__nav--proximo" id="lightboxProximo" aria-label="Próxima foto">›</button>
+    <span class="lightbox__contador" id="lightboxContador"></span>
+    <div class="lightbox__miniaturas" id="lightboxMiniaturas"></div>
+  </div>
+</div>
+
 <script>
-/* ============================================================
-   DADOS DOS IMÓVEIS
-   ============================================================ */
 const PROPERTIES = [
   { id: 1, titulo: "Apartamento com vista para o mar", tipo: "Apartamento", operacao: "venda", preco: 1250000, cidade: "Florianópolis", bairro: "Jurerê Internacional", quartos: 3, suites: 1, banheiros: 3, vagas: 2, area: 142, destaque: true, descricao: "Apartamento amplo a poucos passos da praia, com varanda gourmet integrada e vista privilegiada para o mar. Prédio com infraestrutura completa de lazer.", comodidades: ["Piscina", "Academia", "Salão de festas", "Portaria 24h", "Varanda gourmet", "Vista mar"], imagens: ["https://picsum.photos/seed/imovel1a/900/600","https://picsum.photos/seed/imovel1b/900/600","https://picsum.photos/seed/imovel1c/900/600","https://picsum.photos/seed/imovel1d/900/600"] },
   { id: 2, titulo: "Casa térrea em condomínio fechado", tipo: "Casa", operacao: "venda", preco: 890000, cidade: "Curitiba", bairro: "Santa Felicidade", quartos: 4, suites: 2, banheiros: 3, vagas: 3, area: 210, destaque: true, descricao: "Casa térrea com amplo quintal, churrasqueira e espaço gourmet. Condomínio com segurança 24 horas e área verde preservada.", comodidades: ["Quintal amplo", "Churrasqueira", "Condomínio fechado", "Segurança 24h", "Energia solar"], imagens: ["https://picsum.photos/seed/imovel2a/900/600","https://picsum.photos/seed/imovel2b/900/600","https://picsum.photos/seed/imovel2c/900/600"] },
@@ -701,20 +737,17 @@ const PROPERTIES = [
   { id: 24, titulo: "Apartamento garden em condomínio clube", tipo: "Apartamento", operacao: "venda", preco: 720000, cidade: "Curitiba", bairro: "Ecoville", quartos: 2, suites: 1, banheiros: 2, vagas: 2, area: 88, destaque: false, descricao: "Apartamento garden com área externa privativa, em condomínio clube com piscina, academia e espaço pet.", comodidades: ["Área externa privativa", "Condomínio clube", "Espaço pet"], imagens: ["https://picsum.photos/seed/imovel24a/900/600","https://picsum.photos/seed/imovel24b/900/600"] },
   { id: 25, titulo: "Terreno comercial em avenida principal", tipo: "Terreno", operacao: "venda", preco: 1300000, cidade: "Recife", bairro: "Boa Viagem", quartos: 0, suites: 0, banheiros: 0, vagas: 0, area: 600, destaque: false, descricao: "Terreno comercial estratégico em avenida de grande movimento, ideal para construção de empreendimento próprio.", comodidades: ["Localização estratégica", "Grande movimento", "Uso comercial"], imagens: ["https://picsum.photos/seed/imovel25a/900/600","https://picsum.photos/seed/imovel25b/900/600"] },
   { id: 26, titulo: "Apartamento aconchegante para casal", tipo: "Apartamento", operacao: "aluguel", preco: 1650, cidade: "Porto Alegre", bairro: "Cidade Baixa", quartos: 1, suites: 0, banheiros: 1, vagas: 0, area: 45, destaque: false, descricao: "Apartamento aconchegante, com boa iluminação natural, em região boêmia repleta de bares e vida cultural.", comodidades: ["Boa iluminação", "Região boêmia", "Vida cultural ativa"], imagens: ["https://picsum.photos/seed/imovel26a/900/600","https://picsum.photos/seed/imovel26b/900/600"] },
-  { id: 27, titulo: "Cobertura com piscina privativa e spa", tipo: "Cobertura", operacao: "venda", preco: 3200000, cidade: "São Paulo", bairro: "Vila Nova Conceição", quartos: 4, suites: 4, banheiros: 6, vagas: 5, area: 410, destaque: true, descricao: "Cobertura exclusiva com piscina privativa, spa, adega climatizada e terraço com vista 360° da cidade.", comodidades: ["Piscina privativa", "Spa", "Adega climatizada", "Vista 360°"], imagens: ["https://picsum.photos/seed/imovel27a/900/600","https://picsum.photos/seed/imovel27b/900/600","https://picsum.photos/seed/imovel27c/900/600","https://picsum.photos/seed/imovel27d/900/600"] },
+  { id: 27, titulo: "Cobertura com piscina privativa e spa", tipo: "Cobertura", operacao: "venda", preco: 3200000000, cidade: "Bombinhas", bairro: "Vila Nova Conceição", quartos: 4, suites: 4, banheiros: 6, vagas: 5, area: 410, destaque: true, descricao: "Cobertura exclusiva com piscina privativa, spa, adega climatizada e terraço com vista 360° da cidade.", comodidades: ["Piscina privativa", "Spa", "Adega climatizada", "Vista 360°"], imagens: ["https://picsum.photos/seed/imovel27c/900/600","https://picsum.photos/seed/imovel27c/900/600","https://picsum.photos/seed/imovel27c/900/600","https://picsum.photos/seed/imovel27d/900/600"] },
   { id: 28, titulo: "Casa térrea reformada perto da orla", tipo: "Casa", operacao: "aluguel", preco: 3900, cidade: "Florianópolis", bairro: "Campeche", quartos: 3, suites: 1, banheiros: 2, vagas: 2, area: 140, destaque: false, descricao: "Casa térrea totalmente reformada, a 400 metros da praia, com quintal e espaço para receber amigos.", comodidades: ["Reformada", "Perto da praia", "Quintal"], imagens: ["https://picsum.photos/seed/imovel28a/900/600","https://picsum.photos/seed/imovel28b/900/600"] }
 ];
 const CIDADES_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.cidade))].sort();
 const TIPOS_DISPONIVEIS = [...new Set(PROPERTIES.map(p => p.tipo))].sort();
- 
-/* ============================================================
-   FUNÇÕES COMPARTILHADAS
-   ============================================================ */
+
 function formatarPreco(valor, operacao) {
   const formatado = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   return operacao === 'aluguel' ? `${formatado}/mês` : formatado;
 }
- 
+
 function criarCardImovel(imovel) {
   const operacaoLabel = imovel.operacao === 'venda' ? 'Venda' : 'Aluguel';
   return `
@@ -736,7 +769,7 @@ function criarCardImovel(imovel) {
       </div>
     </a>`;
 }
- 
+
 function popularSelect(elemento, opcoes) {
   if (!elemento) return;
   opcoes.forEach(op => {
@@ -745,7 +778,7 @@ function popularSelect(elemento, opcoes) {
     elemento.appendChild(o);
   });
 }
- 
+
 function mostrarToast(mensagem) {
   const toast = document.getElementById('toast');
   if (!toast) return;
@@ -753,7 +786,7 @@ function mostrarToast(mensagem) {
   toast.classList.add('mostrar');
   setTimeout(() => toast.classList.remove('mostrar'), 3200);
 }
- 
+
 function animarContador(elemento, alvo, duracao = 900) {
   if (!elemento) return;
   const inicio = performance.now();
@@ -764,31 +797,28 @@ function animarContador(elemento, alvo, duracao = 900) {
   }
   requestAnimationFrame(passo);
 }
- 
-/* ============================================================
-   ROTEADOR (simula múltiplas páginas usando a #hash da URL)
-   ============================================================ */
+
 function analisarHash() {
   let hash = window.location.hash.slice(1);
   if (!hash) hash = 'inicio';
   const [rota, queryString] = hash.split('?');
   return { rota: rota || 'inicio', params: new URLSearchParams(queryString || '') };
 }
- 
+
 function renderizarRota() {
   const { rota, params } = analisarHash();
   const rotasValidas = ['inicio', 'busca', 'imovel', 'sobre', 'contato'];
   const rotaFinal = rotasValidas.includes(rota) ? rota : 'inicio';
- 
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('ativa'));
   document.getElementById('page-' + rotaFinal).classList.add('ativa');
- 
+
   document.querySelectorAll('.nav a').forEach(a => {
     a.classList.toggle('ativo', a.dataset.route === rotaFinal);
   });
- 
+
   window.scrollTo({ top: 0 });
- 
+
   const titulos = {
     inicio: 'Raiz Imóveis — Encontre o imóvel certo, no lugar certo',
     busca: 'Buscar imóveis — Raiz Imóveis',
@@ -796,20 +826,17 @@ function renderizarRota() {
     contato: 'Contato — Raiz Imóveis'
   };
   document.title = titulos[rotaFinal] || titulos.inicio;
- 
+
   if (rotaFinal === 'busca') initBusca(params);
   if (rotaFinal === 'imovel') initImovel(params);
 }
- 
+
 window.addEventListener('hashchange', renderizarRota);
- 
-/* ============================================================
-   PÁGINA: BUSCA — filtros, ordenação e paginação
-   ============================================================ */
+
 const ITENS_POR_PAGINA = 9;
 let paginaAtual = 1;
 let filtrosInicializados = false;
- 
+
 const buscaEls = {};
 function coletarElementosBusca() {
   buscaEls.palavra = document.getElementById('fPalavra');
@@ -829,7 +856,7 @@ function coletarElementosBusca() {
   buscaEls.paginacao = document.getElementById('paginacao');
   buscaEls.btnLimpar = document.getElementById('btnLimpar');
 }
- 
+
 function aplicarParametrosNaBusca(params) {
   if (params.get('q')) buscaEls.palavra.value = params.get('q');
   if (params.get('operacao')) buscaEls.operacao.value = params.get('operacao');
@@ -837,7 +864,7 @@ function aplicarParametrosNaBusca(params) {
   if (params.get('quartos')) buscaEls.quartos.value = params.get('quartos');
   if (params.get('precoMax')) buscaEls.precoMax.value = params.get('precoMax');
 }
- 
+
 function filtrarImoveis() {
   const palavra = buscaEls.palavra.value.trim().toLowerCase();
   const operacao = buscaEls.operacao.value;
@@ -849,7 +876,7 @@ function filtrarImoveis() {
   const areaMin = parseFloat(buscaEls.areaMin.value) || 0;
   const somenteVaga = buscaEls.vaga.checked;
   const somenteDestaque = buscaEls.destaque.checked;
- 
+
   return PROPERTIES.filter(im => {
     const textoBusca = `${im.titulo} ${im.bairro} ${im.cidade} ${im.tipo}`.toLowerCase();
     if (palavra && !textoBusca.includes(palavra)) return false;
@@ -864,7 +891,7 @@ function filtrarImoveis() {
     return true;
   });
 }
- 
+
 function ordenarImoveis(lista) {
   const criterio = buscaEls.ordenar.value;
   const copia = [...lista];
@@ -874,7 +901,7 @@ function ordenarImoveis(lista) {
   else copia.sort((a, b) => (b.destaque === a.destaque) ? 0 : (b.destaque ? 1 : -1));
   return copia;
 }
- 
+
 function renderizarPaginacao(totalItens) {
   const totalPaginas = Math.ceil(totalItens / ITENS_POR_PAGINA);
   buscaEls.paginacao.innerHTML = '';
@@ -891,11 +918,11 @@ function renderizarPaginacao(totalItens) {
     buscaEls.paginacao.appendChild(btn);
   }
 }
- 
+
 function renderizarResultadosBusca() {
   const filtrados = ordenarImoveis(filtrarImoveis());
   buscaEls.contagem.textContent = filtrados.length;
- 
+
   if (filtrados.length === 0) {
     buscaEls.grid.innerHTML = '';
     buscaEls.vazio.classList.remove('oculto');
@@ -903,27 +930,27 @@ function renderizarResultadosBusca() {
     return;
   }
   buscaEls.vazio.classList.add('oculto');
- 
+
   const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
   const pagina = filtrados.slice(inicio, inicio + ITENS_POR_PAGINA);
   buscaEls.grid.innerHTML = pagina.map(criarCardImovel).join('');
   renderizarPaginacao(filtrados.length);
 }
- 
+
 function resetarPaginaERenderizarBusca() {
   paginaAtual = 1;
   renderizarResultadosBusca();
 }
- 
+
 function initBusca(params) {
   if (!filtrosInicializados) {
     coletarElementosBusca();
     popularSelect(buscaEls.tipo, TIPOS_DISPONIVEIS);
     popularSelect(buscaEls.cidade, CIDADES_DISPONIVEIS);
- 
+
     [buscaEls.operacao, buscaEls.tipo, buscaEls.cidade, buscaEls.quartos, buscaEls.vaga, buscaEls.destaque, buscaEls.ordenar]
       .forEach(el => el.addEventListener('change', resetarPaginaERenderizarBusca));
- 
+
     let debounceTimer;
     [buscaEls.palavra, buscaEls.precoMin, buscaEls.precoMax, buscaEls.areaMin].forEach(el => {
       el.addEventListener('input', () => {
@@ -931,48 +958,117 @@ function initBusca(params) {
         debounceTimer = setTimeout(resetarPaginaERenderizarBusca, 300);
       });
     });
- 
+
     buscaEls.btnLimpar.addEventListener('click', () => {
       document.getElementById('formFiltros').reset();
       resetarPaginaERenderizarBusca();
     });
- 
+
     filtrosInicializados = true;
   }
- 
+
   aplicarParametrosNaBusca(params);
   resetarPaginaERenderizarBusca();
 }
- 
-/* ============================================================
-   PÁGINA: DETALHE DO IMÓVEL
-   ============================================================ */
+
 let imovelAtual = null;
 let formImovelInicializado = false;
- 
+
+/* ============================================================
+   LIGHTBOX DE FOTOS DO IMÓVEL
+   ============================================================ */
+let lightboxImagens = [];
+let lightboxIndice = 0;
+let lightboxInicializado = false;
+
+function popularMiniaturasLightbox() {
+  const wrap = document.getElementById('lightboxMiniaturas');
+  wrap.innerHTML = lightboxImagens.map((src, i) =>
+    `<img src="${src}" data-indice="${i}" class="${i === lightboxIndice ? 'ativa' : ''}" alt="Miniatura ${i + 1}">`
+  ).join('');
+}
+
+function atualizarLightbox() {
+  const total = lightboxImagens.length;
+  document.getElementById('lightboxImagem').src = lightboxImagens[lightboxIndice];
+  document.getElementById('lightboxContador').textContent = `${lightboxIndice + 1} / ${total}`;
+  const anterior = document.getElementById('lightboxAnterior');
+  const proximo = document.getElementById('lightboxProximo');
+  anterior.style.display = total > 1 ? 'flex' : 'none';
+  proximo.style.display = total > 1 ? 'flex' : 'none';
+  document.querySelectorAll('#lightboxMiniaturas img').forEach((img, i) => {
+    img.classList.toggle('ativa', i === lightboxIndice);
+  });
+  const ativa = document.querySelector('#lightboxMiniaturas img.ativa');
+  if (ativa) ativa.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+}
+
+function abrirLightbox(imagens, indiceInicial) {
+  lightboxImagens = imagens;
+  lightboxIndice = indiceInicial || 0;
+  popularMiniaturasLightbox();
+  atualizarLightbox();
+  document.getElementById('lightbox').classList.add('aberto');
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharLightbox() {
+  document.getElementById('lightbox').classList.remove('aberto');
+  document.body.style.overflow = '';
+}
+
+function navegarLightbox(direcao) {
+  const total = lightboxImagens.length;
+  if (total <= 1) return;
+  lightboxIndice = (lightboxIndice + direcao + total) % total;
+  atualizarLightbox();
+}
+
+function inicializarLightbox() {
+  if (lightboxInicializado) return;
+  document.getElementById('lightboxFechar').addEventListener('click', fecharLightbox);
+  document.getElementById('lightboxAnterior').addEventListener('click', () => navegarLightbox(-1));
+  document.getElementById('lightboxProximo').addEventListener('click', () => navegarLightbox(1));
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') fecharLightbox();
+  });
+  document.getElementById('lightboxMiniaturas').addEventListener('click', (e) => {
+    const img = e.target.closest('img[data-indice]');
+    if (!img) return;
+    lightboxIndice = parseInt(img.dataset.indice);
+    atualizarLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('aberto')) return;
+    if (e.key === 'Escape') fecharLightbox();
+    if (e.key === 'ArrowLeft') navegarLightbox(-1);
+    if (e.key === 'ArrowRight') navegarLightbox(1);
+  });
+  lightboxInicializado = true;
+}
+
 function initImovel(params) {
   const id = parseInt(params.get('id'));
   imovelAtual = PROPERTIES.find(p => p.id === id);
- 
+
   const conteudo = document.querySelector('#page-imovel .detalhe-conteudo');
   const galeria = document.getElementById('galeria');
   const semelhantesSecao = document.querySelector('#page-imovel .semelhantes');
- 
+
   if (!imovelAtual) {
     galeria.style.display = 'none';
     semelhantesSecao.style.display = 'none';
     conteudo.innerHTML = '<div class="estado-vazio"><h3>Imóvel não encontrado</h3><p>O imóvel que você procura pode ter sido removido ou o link está incorreto.</p></div>';
     return;
   }
- 
+
   galeria.style.display = '';
   semelhantesSecao.style.display = '';
-  // Restaura estrutura original caso um "não encontrado" anterior tenha sobrescrito o conteúdo
   if (!document.getElementById('specsRapidas')) {
     location.reload();
     return;
   }
- 
+
   const im = imovelAtual;
   document.getElementById('migalhaTitulo').textContent = im.titulo;
   document.getElementById('detTitulo').textContent = im.titulo;
@@ -982,16 +1078,29 @@ function initImovel(params) {
   document.getElementById('detDescricao').textContent = im.descricao;
   document.getElementById('detLocalizacaoTexto').textContent =
     `Este imóvel está localizado no bairro ${im.bairro}, em ${im.cidade}, próximo a comércios, vias de acesso e pontos de interesse da região.`;
- 
+
   document.getElementById('imgPrincipal').src = im.imagens[0];
   document.getElementById('imgPrincipal').alt = im.titulo;
+
+  // Clique na foto principal abre o lightbox na primeira foto
+  const principalWrap = document.getElementById('galeriaPrincipalWrap');
+  principalWrap.onclick = () => abrirLightbox(im.imagens, 0);
+
   const lateral = document.getElementById('galeriaLateral');
   const imagensLaterais = im.imagens.slice(1, 3);
   lateral.innerHTML = imagensLaterais.map((src, idx) => {
     const ultima = idx === imagensLaterais.length - 1 && im.imagens.length > 3;
-    return `<div><img src="${src}" alt="${im.titulo}">${ultima ? `<div class="galeria__mais">+${im.imagens.length - 3} fotos</div>` : ''}</div>`;
+    return `<div data-indice-real="${idx + 1}"><img src="${src}" alt="${im.titulo}">${ultima ? `<div class="galeria__mais">+${im.imagens.length - 3} fotos</div>` : ''}</div>`;
   }).join('');
- 
+
+  // Clique em qualquer foto lateral (inclusive a que mostra "+X fotos") abre o lightbox com TODAS as fotos do imóvel
+  lateral.querySelectorAll('div[data-indice-real]').forEach(div => {
+    div.addEventListener('click', () => {
+      const indiceReal = parseInt(div.dataset.indiceReal);
+      abrirLightbox(im.imagens, indiceReal);
+    });
+  });
+
   const specs = [
     { valor: im.quartos, label: 'Quartos' },
     { valor: im.suites, label: 'Suítes' },
@@ -1002,14 +1111,16 @@ function initImovel(params) {
   document.getElementById('specsRapidas').innerHTML = specs.map(s => `
     <div class="spec-item"><strong>${s.valor}</strong><span>${s.label}</span></div>
   `).join('');
- 
+
   document.getElementById('listaComodidades').innerHTML = im.comodidades.map(c => `<li>${c}</li>`).join('');
- 
+
   const semelhantes = PROPERTIES.filter(p => p.id !== im.id && (p.cidade === im.cidade || p.tipo === im.tipo)).slice(0, 3);
   document.getElementById('gridSemelhantes').innerHTML = semelhantes.length
     ? semelhantes.map(criarCardImovel).join('')
     : '<p style="color:var(--cinza-500);">Nenhum imóvel semelhante encontrado no momento.</p>';
- 
+
+  inicializarLightbox();
+
   if (!formImovelInicializado) {
     document.getElementById('formContatoImovel').addEventListener('submit', function (e) {
       mostrarToast('Interesse enviado! Em breve o corretor entrará em contato.');
@@ -1018,33 +1129,25 @@ function initImovel(params) {
     formImovelInicializado = true;
   }
 }
- 
-/* ============================================================
-   INICIALIZAÇÃO GERAL (roda uma única vez ao carregar a página)
-   ============================================================ */
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Selects de tipo (busca rápida da home) e footer
   popularSelect(document.getElementById('qTipo'), TIPOS_DISPONIVEIS);
- 
+
   const footerTipos = document.getElementById('footerTipos');
   TIPOS_DISPONIVEIS.forEach(tipo => {
     const li = document.createElement('li');
     li.innerHTML = `<a href="#busca?tipo=${encodeURIComponent(tipo)}">${tipo}s</a>`;
     footerTipos.appendChild(li);
   });
- 
-  // Estatística do hero
+
   animarContador(document.getElementById('statTotal'), PROPERTIES.length * 47);
- 
-  // Grid de destaques
+
   const destaques = PROPERTIES.filter(p => p.destaque).slice(0, 6);
   document.getElementById('gridDestaques').innerHTML = destaques.map(criarCardImovel).join('');
- 
-  // Grid "explore por cidade"
+
   const representantes = CIDADES_DISPONIVEIS.map(cidade => PROPERTIES.find(p => p.cidade === cidade)).filter(Boolean).slice(0, 6);
   document.getElementById('gridCidades').innerHTML = representantes.map(criarCardImovel).join('');
- 
-  // Tabs Comprar/Alugar
+
   const tabs = document.querySelectorAll('.busca-tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1052,8 +1155,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.classList.add('ativa');
     });
   });
- 
-  // Busca rápida da home -> navega para a rota #busca com os parâmetros escolhidos
+
   document.getElementById('formBuscaRapida').addEventListener('submit', e => {
     e.preventDefault();
     const operacaoAtiva = document.querySelector('.busca-tab.ativa')?.dataset.op || '';
@@ -1062,23 +1164,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipo = document.getElementById('qTipo').value;
     const quartos = document.getElementById('qQuartos').value;
     const precoMax = document.getElementById('qPrecoMax').value;
- 
+
     if (operacaoAtiva) params.set('operacao', operacaoAtiva);
     if (palavra) params.set('q', palavra);
     if (tipo) params.set('tipo', tipo);
     if (quartos) params.set('quartos', quartos);
     if (precoMax) params.set('precoMax', precoMax);
- 
+
     window.location.hash = '#busca?' + params.toString();
   });
- 
-  // Formulário de contato geral
+
   document.getElementById('formContatoGeral').addEventListener('submit', function () {
     mostrarToast('Mensagem enviada com sucesso!');
     this.reset();
   });
- 
-  // Menu mobile
+
   const menuToggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
   menuToggle.addEventListener('click', () => {
@@ -1093,13 +1193,34 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.style.padding = '20px 28px';
     nav.style.gap = '16px';
   });
- 
-  // Renderiza a rota inicial (lê o hash atual da URL, se houver)
+
   renderizarRota();
+
+  /* ============================================================
+     CORREÇÃO MOBILE (parte 3): quando o teclado do celular fecha
+     (ao tocar fora de um campo, ou dar "OK"/"Concluído"), muitos
+     navegadores mobile não recalculam a altura visível da página
+     imediatamente — e isso deixava um espaço em branco sobrando
+     na parte de baixo da tela até o usuário rolar manualmente.
+     Aqui forçamos esse recálculo assim que o campo perde o foco. */
+  function corrigirEspacoAposTeclado() {
+    // truque: um scroll de 1px "acorda" o navegador para recalcular o layout
+    window.scrollTo(window.scrollX, window.scrollY + 1);
+    window.scrollTo(window.scrollX, window.scrollY - 1);
+  }
+  document.addEventListener('focusout', (e) => {
+    const alvo = e.target;
+    if (alvo.matches && alvo.matches('input, select, textarea')) {
+      setTimeout(corrigirEspacoAposTeclado, 50);
+      setTimeout(corrigirEspacoAposTeclado, 300);
+    }
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      setTimeout(corrigirEspacoAposTeclado, 50);
+    });
+  }
 });
 </script>
 </body>
 </html>
- 
-
-
